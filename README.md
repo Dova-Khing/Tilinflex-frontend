@@ -1,2 +1,4 @@
 # Tilinflex-frontend
-El frontend de una plataforma de streaming
+
+## **ABOUT Tilinflex-Frontend**
+-Este repositorio se encarga de almacenar toda la parte visual (front) de la plataforma de streaming Tilinflex
