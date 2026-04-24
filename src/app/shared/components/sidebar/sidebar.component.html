@@ -1,0 +1,13 @@
+<aside class="w-56 min-h-screen bg-zinc-900 flex flex-col py-6 px-4">
+  <h1 class="text-red-500 font-bold text-xl mb-8 px-2">Tilinflex</h1>
+  <nav class="flex flex-col gap-1">
+    <a
+      *ngFor="let item of menu"
+      [routerLink]="item.ruta"
+      routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-zinc-400 hover:bg-zinc-800 hover:text-white transition text-sm"
+    >
+      {{ item.label }}
+    </a>
+  </nav>
+</aside>

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class ObrasService {
-  private readonly api = `${environment.apiUrl}/obras`;
+export class UsuariosService {
+  private readonly api = `${environment.apiUrl}/usuarios`;
   constructor(private http: HttpClient) {}
 
   getAll() { return this.http.get<any[]>(this.api); }

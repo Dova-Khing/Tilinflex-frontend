@@ -1,1 +1,50 @@
-<p>login works</p>
+<div class="min-h-screen bg-black flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-zinc-900 rounded-xl p-8 shadow-lg">
+
+    <h1 class="text-3xl font-bold text-white mb-2">Iniciar sesión</h1>
+    <p class="text-zinc-400 mb-6 text-sm">Accede a tu cuenta de Tilinflex</p>
+
+    <div *ngIf="error" class="bg-red-900/40 border border-red-600 text-red-400 text-sm px-4 py-3 rounded mb-4">
+      {{ error }}
+    </div>
+
+    <form (ngSubmit)="login()" #form="ngForm">
+      <div class="mb-4">
+        <label class="block text-zinc-400 text-sm mb-1">Email</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="correo@ejemplo.com"
+          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-zinc-400 text-sm mb-1">Contraseña</label>
+        <input
+          type="password"
+          [(ngModel)]="contrasena"
+          name="contrasena"
+          required
+          placeholder="••••••••"
+          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600"
+        />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="cargando || !email || !contrasena"
+        class="w-full bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition"
+      >
+        {{ cargando ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+
+    <p class="text-zinc-500 text-sm mt-6 text-center">
+      ¿No tienes cuenta?
+      <a routerLink="/registro" class="text-red-500 hover:underline">Regístrate</a>
+    </p>
+  </div>
+</div>
