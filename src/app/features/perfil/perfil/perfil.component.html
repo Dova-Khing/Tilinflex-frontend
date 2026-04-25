@@ -1,1 +1,34 @@
-<p>perfil works</p>
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Perfiles</h1>
+  </div>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando perfiles...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre de usuario</th>
+          <th>Idioma</th>
+          <th>Infantil</th>
+          <th>Creado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of perfiles; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td class="text-bold">{{ p.nombre_usuario }}</td>
+          <td>{{ p.idioma?.toUpperCase() }}</td>
+          <td><span class="badge" [ngClass]="p.es_infantil ? 'si' : 'no'">{{ p.es_infantil ? 'Sí' : 'No' }}</span></td>
+          <td class="text-muted">{{ p.fecha_creacion | date:'dd/MM/yyyy' }}</td>
+        </tr>
+        <tr *ngIf="perfiles.length === 0">
+          <td colspan="5" class="empty-state">No hay perfiles registrados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

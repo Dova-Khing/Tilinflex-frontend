@@ -1,0 +1,28 @@
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Categorías</h1>
+  </div>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando categorías...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of categorias; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td class="text-bold">{{ c.nombre_categoria }}</td>
+        </tr>
+        <tr *ngIf="categorias.length === 0">
+          <td colspan="2" class="empty-state">No hay categorías registradas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

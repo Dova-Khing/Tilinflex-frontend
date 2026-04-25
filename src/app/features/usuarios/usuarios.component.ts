@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../../core/services/usuarios.service';
 
@@ -8,6 +8,7 @@ import { UsuariosService } from '../../core/services/usuarios.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.scss'],
 })
 export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
@@ -17,9 +18,15 @@ export class UsuariosComponent implements OnInit {
   editando = false;
   form: any = this.formVacio();
 
-  constructor(private service: UsuariosService) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private service: UsuariosService,
+  ) {}
 
-  ngOnInit() { this.cargar(); }
+  ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) { this.cargando = false; return; }
+    this.cargar();
+  }
 
   cargar() {
     this.cargando = true;
