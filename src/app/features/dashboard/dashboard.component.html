@@ -1,0 +1,138 @@
+<div class="dashboard">
+
+  <!-- HEADER -->
+  <div class="dash-header">
+    <div>
+      <h1 class="dash-title">Dashboard</h1>
+      <p class="dash-subtitle">Resumen general del sistema</p>
+    </div>
+    <span class="dash-date">{{ today | date: 'EEEE, d MMMM yyyy' : '' : 'es' }}</span>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card blue" routerLink="/obras">
+      <div class="stat-icon">🎬</div>
+      <div class="stat-info">
+        <span class="stat-label">Obras</span>
+        <span class="stat-value">{{ stats.obras }}</span>
+      </div>
+    </div>
+    <div class="stat-card indigo" routerLink="/usuarios">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info">
+        <span class="stat-label">Usuarios</span>
+        <span class="stat-value">{{ stats.usuarios }}</span>
+      </div>
+    </div>
+    <div class="stat-card violet" routerLink="/categorias">
+      <div class="stat-icon">🏷️</div>
+      <div class="stat-info">
+        <span class="stat-label">Categorías</span>
+        <span class="stat-value">{{ stats.categorias }}</span>
+      </div>
+    </div>
+    <div class="stat-card teal" routerLink="/generos">
+      <div class="stat-icon">🎭</div>
+      <div class="stat-info">
+        <span class="stat-label">Géneros</span>
+        <span class="stat-value">{{ stats.generos }}</span>
+      </div>
+    </div>
+    <div class="stat-card amber" routerLink="/suscripciones">
+      <div class="stat-icon">💳</div>
+      <div class="stat-info">
+        <span class="stat-label">Suscripciones</span>
+        <span class="stat-value">{{ stats.suscripciones }}</span>
+      </div>
+    </div>
+    <div class="stat-card rose" routerLink="/perfil">
+      <div class="stat-icon">👤</div>
+      <div class="stat-info">
+        <span class="stat-label">Perfiles</span>
+        <span class="stat-value">{{ stats.perfiles }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- CHART -->
+    <div class="card">
+      <div class="card-head">
+        <h2 class="card-title">Obras registradas por mes</h2>
+        <div class="legend">
+          <span class="dot blue"></span> Este año
+          <span class="dot blue-light"></span> Año anterior
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas #salesChart></canvas>
+      </div>
+    </div>
+
+    <!-- ACCESOS RAPIDOS -->
+    <!-- <div class="card">
+      <h2 class="card-title" style="margin-bottom:18px">Accesos Rápidos</h2>
+      <div class="quick-links">
+        <a routerLink="/obras" class="qlink blue">
+          <span class="qlink-icon">🎬</span>
+          <span>Obras</span>
+        </a>
+        <a routerLink="/usuarios" class="qlink indigo">
+          <span class="qlink-icon">👥</span>
+          <span>Usuarios</span>
+        </a>
+        <a routerLink="/categorias" class="qlink violet">
+          <span class="qlink-icon">🏷️</span>
+          <span>Categorías</span>
+        </a>
+        <a routerLink="/generos" class="qlink teal">
+          <span class="qlink-icon">🎭</span>
+          <span>Géneros</span>
+        </a>
+        <a routerLink="/suscripciones" class="qlink amber">
+          <span class="qlink-icon">💳</span>
+          <span>Suscripciones</span>
+        </a>
+        <a routerLink="/perfil" class="qlink rose">
+          <span class="qlink-icon">👤</span>
+          <span>Perfil</span>
+        </a>
+      </div>
+    </div> -->
+
+    <!-- OBRAS RECIENTES -->
+    <div class="card full-col">
+      <div class="card-head">
+        <h2 class="card-title">Obras Recientes</h2>
+        <a routerLink="/obras" class="ver-todo">Ver todas →</a>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Género</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let obra of obrasRecientes; let i = index">
+            <td class="muted">{{ i + 1 }}</td>
+            <td class="bold">{{ obra.titulo }}</td>
+            <td>{{ obra.categoria }}</td>
+            <td>{{ obra.genero }}</td>
+            <td><span class="badge" [ngClass]="obra.estado">{{ obra.estado }}</span></td>
+          </tr>
+          <tr *ngIf="obrasRecientes.length === 0">
+            <td colspan="5" class="empty">No hay obras registradas aún</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
