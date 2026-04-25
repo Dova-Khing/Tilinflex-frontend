@@ -1,0 +1,32 @@
+<!-- NAVBAR -->
+<nav class="bg-zinc-900 border-b border-zinc-800 px-8 py-4 flex items-center justify-between sticky top-0 z-50">
+  <span class="text-red-500 font-bold text-xl tracking-wide">Tilinflex Admin</span>
+  <div class="flex gap-2">
+    <a routerLink="/obras" routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
+      Obras
+    </a>
+    <a routerLink="/usuarios" routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
+      Usuarios
+    </a>
+    <a routerLink="/categorias" routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
+      Categorías
+    </a>
+    <a routerLink="/generos" routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
+      Géneros
+    </a>
+    <a routerLink="/suscripciones" routerLinkActive="bg-red-600 text-white"
+      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
+      Suscripciones
+    </a>
+  </div>
+  <a routerLink="/login" class="text-sm text-zinc-400 hover:text-white transition">Cerrar sesión</a>
+</nav>
+
+<!-- CONTENIDO -->
+<main class="min-h-screen bg-black p-8">
+  <router-outlet />
+</main>
