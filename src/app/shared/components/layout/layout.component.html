@@ -1,32 +1,54 @@
-<!-- NAVBAR -->
-<nav class="bg-zinc-900 border-b border-zinc-800 px-8 py-4 flex items-center justify-between sticky top-0 z-50">
-  <span class="text-red-500 font-bold text-xl tracking-wide">Tilinflex Admin</span>
-  <div class="flex gap-2">
-    <a routerLink="/obras" routerLinkActive="bg-red-600 text-white"
-      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
-      Obras
-    </a>
-    <a routerLink="/usuarios" routerLinkActive="bg-red-600 text-white"
-      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
-      Usuarios
-    </a>
-    <a routerLink="/categorias" routerLinkActive="bg-red-600 text-white"
-      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
-      Categorías
-    </a>
-    <a routerLink="/generos" routerLinkActive="bg-red-600 text-white"
-      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
-      Géneros
-    </a>
-    <a routerLink="/suscripciones" routerLinkActive="bg-red-600 text-white"
-      class="px-4 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 transition">
-      Suscripciones
-    </a>
-  </div>
-  <a routerLink="/login" class="text-sm text-zinc-400 hover:text-white transition">Cerrar sesión</a>
-</nav>
+<div class="app-shell">
 
-<!-- CONTENIDO -->
-<main class="min-h-screen bg-black p-8">
-  <router-outlet />
-</main>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">▶</span>
+      <span class="logo-text">Tilinflex</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⊞</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/obras" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🎬</span>
+        <span>Obras</span>
+      </a>
+      <a routerLink="/usuarios" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span>Usuarios</span>
+      </a>
+      <a routerLink="/categorias" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏷️</span>
+        <span>Categorías</span>
+      </a>
+      <a routerLink="/generos" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🎭</span>
+        <span>Géneros</span>
+      </a>
+      <a routerLink="/suscripciones" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💳</span>
+        <span>Suscripciones</span>
+      </a>
+      <a routerLink="/perfil" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span>Perfil</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/login" class="nav-item logout">
+        <span class="nav-icon">⇠</span>
+        <span>Cerrar sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <router-outlet />
+  </main>
+
+</div>
