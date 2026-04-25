@@ -1,77 +1,82 @@
-<div class="flex items-center justify-between mb-6">
-  <h2 class="text-2xl font-bold text-white">Obras</h2>
-  <button (click)="abrirCrear()"
-    class="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-lg transition">
-    + Crear obra
-  </button>
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Obras</h1>
+    <button class="btn btn-primary" (click)="abrirCrear()">+ Crear obra</button>
+  </div>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando obras...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Año</th>
+          <th>Episodios</th>
+          <th style="text-align:center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let obra of obras; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td class="text-bold">{{ obra.nombre }}</td>
+          <td class="text-muted" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ obra.descripcion }}</td>
+          <td>{{ obra.anio }}</td>
+          <td>{{ obra.episodios }}</td>
+          <td style="text-align:center;white-space:nowrap">
+            <button class="btn btn-secondary btn-sm" (click)="abrirEditar(obra)" style="margin-right:6px">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(obra.id_obra)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="obras.length === 0">
+          <td colspan="6" class="empty-state">No hay obras registradas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div *ngIf="error" class="text-red-400 mb-4 text-sm">{{ error }}</div>
-<div *ngIf="cargando" class="text-zinc-400">Cargando...</div>
+<div *ngIf="mostrarModal" class="modal-overlay">
+  <div class="modal">
+    <h2 class="modal-title">{{ editando ? 'Editar obra' : 'Nueva obra' }}</h2>
 
-<div *ngIf="!cargando" class="overflow-x-auto rounded-xl">
-  <table class="w-full text-sm text-left text-zinc-300">
-    <thead class="text-xs text-zinc-400 uppercase bg-zinc-800">
-      <tr>
-        <th class="px-4 py-3">Nombre</th>
-        <th class="px-4 py-3">Descripción</th>
-        <th class="px-4 py-3">Año</th>
-        <th class="px-4 py-3">Episodios</th>
-        <th class="px-4 py-3 text-center">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let obra of obras" class="border-b border-zinc-800 hover:bg-zinc-900 transition">
-        <td class="px-4 py-3 text-white font-medium">{{ obra.nombre }}</td>
-        <td class="px-4 py-3 max-w-xs truncate">{{ obra.descripcion }}</td>
-        <td class="px-4 py-3">{{ obra.anio }}</td>
-        <td class="px-4 py-3">{{ obra.episodios }}</td>
-        <td class="px-4 py-3 flex gap-2 justify-center">
-          <button (click)="abrirEditar(obra)"
-            class="bg-zinc-700 hover:bg-zinc-600 text-white px-3 py-1 rounded text-xs transition">
-            Editar
-          </button>
-          <button (click)="eliminar(obra.id_obra)"
-            class="bg-red-700 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition">
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- MODAL -->
-<div *ngIf="mostrarModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-  <div class="bg-zinc-900 rounded-xl p-6 w-full max-w-md shadow-xl">
-    <h3 class="text-white font-bold text-lg mb-4">{{ editando ? 'Editar' : 'Crear' }} obra</h3>
-
-    <div class="space-y-3">
-      <input [(ngModel)]="form.nombre" placeholder="Nombre"
-        class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-      <textarea [(ngModel)]="form.descripcion" placeholder="Descripción" rows="3"
-        class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600"></textarea>
-      <div class="grid grid-cols-2 gap-3">
-        <input [(ngModel)]="form.anio" type="number" placeholder="Año"
-          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-        <input [(ngModel)]="form.episodios" type="number" placeholder="Episodios"
-          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-      </div>
-      <input [(ngModel)]="form.id_categoria" placeholder="ID Categoría"
-        class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-      <input [(ngModel)]="form.id_genero" placeholder="ID Género"
-        class="w-full bg-zinc-800 text-white rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-red-600" />
+    <div class="form-group">
+      <label class="form-label">Nombre</label>
+      <input [(ngModel)]="form.nombre" class="form-input" placeholder="Ej: Breaking Bad" />
     </div>
 
-    <div class="flex gap-3 mt-5">
-      <button (click)="guardar()"
-        class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-semibold transition">
-        {{ editando ? 'Guardar cambios' : 'Crear' }}
-      </button>
-      <button (click)="cerrar()"
-        class="flex-1 bg-zinc-700 hover:bg-zinc-600 text-white py-2 rounded-lg text-sm transition">
-        Cancelar
-      </button>
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <textarea [(ngModel)]="form.descripcion" class="form-input" rows="3" placeholder="Descripción breve..."></textarea>
+    </div>
+
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label class="form-label">Año</label>
+        <input type="number" [(ngModel)]="form.anio" class="form-input" placeholder="2024" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Episodios</label>
+        <input type="number" [(ngModel)]="form.episodios" class="form-input" placeholder="1" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ID Categoría</label>
+      <input [(ngModel)]="form.id_categoria" class="form-input" placeholder="UUID de la categoría" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ID Género</label>
+      <input [(ngModel)]="form.id_genero" class="form-input" placeholder="UUID del género" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="guardar()">{{ editando ? 'Guardar' : 'Crear' }}</button>
+      <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
     </div>
   </div>
 </div>

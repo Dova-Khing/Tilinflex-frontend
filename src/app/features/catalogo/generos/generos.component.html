@@ -1,0 +1,28 @@
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Géneros</h1>
+  </div>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando géneros...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let g of generos; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td class="text-bold">{{ g.nombre_genero }}</td>
+        </tr>
+        <tr *ngIf="generos.length === 0">
+          <td colspan="2" class="empty-state">No hay géneros registrados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

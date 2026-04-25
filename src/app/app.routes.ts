@@ -23,14 +23,9 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'dashboard',         // ← ruta nueva
+        path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
-      },
-      {
-        path: '',
-        redirectTo: 'obras',
-        pathMatch: 'full',
       },
       {
         path: 'obras',
@@ -45,12 +40,12 @@ export const routes: Routes = [
       {
         path: 'categorias',
         loadComponent: () =>
-          import('./features/catalogo/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
+          import('./features/catalogo/categorias/categorias.component').then((m) => m.CategoriasComponent),
       },
       {
         path: 'generos',
         loadComponent: () =>
-          import('./features/catalogo/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
+          import('./features/catalogo/generos/generos.component').then((m) => m.GenerosComponent),
       },
       {
         path: 'perfil',

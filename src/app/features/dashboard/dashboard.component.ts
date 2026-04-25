@@ -1,7 +1,12 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
+import { forkJoin } from 'rxjs';
+import { ObrasService } from '../../core/services/obras.service';
+import { UsuariosService } from '../../core/services/usuarios.service';
+import { CategoriasService } from '../../core/services/categorias.service';
+import { GenerosService } from '../../core/services/generos.service';
 
 Chart.register(...registerables);
 
@@ -12,13 +17,12 @@ Chart.register(...registerables);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
 
   @ViewChild('salesChart') salesChartRef!: ElementRef<HTMLCanvasElement>;
 
   today = new Date();
 
-  // ── Reemplaza estos valores con llamadas reales a tus servicios ──
   stats = {
     obras: 0,
     usuarios: 0,
@@ -28,30 +32,53 @@ export class DashboardComponent implements AfterViewInit {
     perfiles: 0,
   };
 
-  // ── Reemplaza con datos reales desde ObrasService ──
-  obrasRecientes: { titulo: string; categoria: string; genero: string; estado: string }[] = [];
+  obrasRecientes: { nombre: string; categoria: string; genero: string; anio: number }[] = [];
 
-  // ── Ejemplo con datos reales: inyecta tus servicios y carga aquí ──
-  // constructor(
-  //   private obrasService: ObrasService,
-  //   private usuariosService: UsuariosService,
-  // ) {}
-  //
-  // ngOnInit() {
-  //   this.obrasService.getAll().subscribe(obras => {
-  //     this.stats.obras = obras.length;
-  //     this.obrasRecientes = obras.slice(0, 5).map(o => ({
-  //       titulo: o.titulo,
-  //       categoria: o.categoria,
-  //       genero: o.genero,
-  //       estado: o.estado ?? 'activo',
-  //     }));
-  //   });
-  //   this.usuariosService.getAll().subscribe(u => this.stats.usuarios = u.length);
-  // }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private obrasService: ObrasService,
+    private usuariosService: UsuariosService,
+    private categoriasService: CategoriasService,
+    private generosService: GenerosService,
+  ) {}
+
+  ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    forkJoin({
+      obras: this.obrasService.getAll(),
+      usuarios: this.usuariosService.getAll(),
+      categorias: this.categoriasService.getAll(),
+      generos: this.generosService.getAll(),
+    }).subscribe({
+      next: ({ obras, usuarios, categorias, generos }) => {
+        const catMap: Record<string, string> = Object.fromEntries(
+          categorias.map((c: any) => [c.id_categoria, c.nombre_categoria])
+        );
+        const genMap: Record<string, string> = Object.fromEntries(
+          generos.map((g: any) => [g.id_genero, g.nombre_genero])
+        );
+
+        this.stats.obras = obras.length;
+        this.stats.usuarios = usuarios.length;
+        this.stats.categorias = categorias.length;
+        this.stats.generos = generos.length;
+
+        this.obrasRecientes = obras.slice(0, 5).map((o: any) => ({
+          nombre: o.nombre,
+          categoria: catMap[o.id_categoria] ?? '—',
+          genero: genMap[o.id_genero] ?? '—',
+          anio: o.anio,
+        }));
+      },
+      error: (err) => console.error('Dashboard: error cargando datos', err),
+    });
+  }
 
   ngAfterViewInit(): void {
-    this.buildChart();
+    if (isPlatformBrowser(this.platformId)) {
+      this.buildChart();
+    }
   }
 
   private buildChart(): void {
