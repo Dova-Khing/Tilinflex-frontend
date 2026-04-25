@@ -6,7 +6,7 @@
       <h1 class="dash-title">Dashboard</h1>
       <p class="dash-subtitle">Resumen general del sistema</p>
     </div>
-    <span class="dash-date">{{ today | date: 'EEEE, d MMMM yyyy' : '' : 'es' }}</span>
+    <span class="dash-date">{{ today | date: 'EEEE, d MMMM yyyy' }}</span>
   </div>
 
   <!-- STAT CARDS -->
@@ -113,19 +113,19 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Título</th>
+            <th>Nombre</th>
             <th>Categoría</th>
             <th>Género</th>
-            <th>Estado</th>
+            <th>Año</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let obra of obrasRecientes; let i = index">
             <td class="muted">{{ i + 1 }}</td>
-            <td class="bold">{{ obra.titulo }}</td>
+            <td class="bold">{{ obra.nombre }}</td>
             <td>{{ obra.categoria }}</td>
             <td>{{ obra.genero }}</td>
-            <td><span class="badge" [ngClass]="obra.estado">{{ obra.estado }}</span></td>
+            <td>{{ obra.anio }}</td>
           </tr>
           <tr *ngIf="obrasRecientes.length === 0">
             <td colspan="5" class="empty">No hay obras registradas aún</td>

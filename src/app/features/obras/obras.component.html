@@ -1,95 +1,82 @@
 <div class="page">
-
-  <!-- HEADER -->
   <div class="page-header">
-    <div>
-      <h2 class="page-title">Obras</h2>
-      <p class="page-subtitle">Gestión de obras registradas</p>
-    </div>
-    <button (click)="abrirCrear()" class="btn-primary">+ Crear obra</button>
+    <h1 class="page-title">Obras</h1>
+    <button class="btn btn-primary" (click)="abrirCrear()">+ Crear obra</button>
   </div>
 
-  <!-- ERROR -->
-  <div *ngIf="error" class="alert-error">{{ error }}</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
 
-  <!-- LOADING -->
-  <div *ngIf="cargando" class="loading">Cargando obras...</div>
-
-  <!-- TABLA -->
-  <div *ngIf="!cargando" class="card">
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Año</th>
-            <th>Episodios</th>
-            <th class="center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let obra of obras; let i = index">
-            <td class="muted">{{ i + 1 }}</td>
-            <td class="bold">{{ obra.nombre }}</td>
-            <td class="truncate-cell">{{ obra.descripcion }}</td>
-            <td>{{ obra.anio }}</td>
-            <td>{{ obra.episodios }}</td>
-            <td class="center">
-              <div class="actions">
-                <button (click)="abrirEditar(obra)" class="btn-edit">Editar</button>
-                <button (click)="eliminar(obra.id_obra)" class="btn-delete">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr *ngIf="obras.length === 0">
-            <td colspan="6" class="empty">No hay obras registradas aún</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando obras...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Año</th>
+          <th>Episodios</th>
+          <th style="text-align:center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let obra of obras; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td class="text-bold">{{ obra.nombre }}</td>
+          <td class="text-muted" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ obra.descripcion }}</td>
+          <td>{{ obra.anio }}</td>
+          <td>{{ obra.episodios }}</td>
+          <td style="text-align:center;white-space:nowrap">
+            <button class="btn btn-secondary btn-sm" (click)="abrirEditar(obra)" style="margin-right:6px">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(obra.id_obra)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="obras.length === 0">
+          <td colspan="6" class="empty-state">No hay obras registradas</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
 </div>
 
-<!-- MODAL -->
 <div *ngIf="mostrarModal" class="modal-overlay">
   <div class="modal">
-    <h3 class="modal-title">{{ editando ? 'Editar' : 'Crear' }} obra</h3>
+    <h2 class="modal-title">{{ editando ? 'Editar obra' : 'Nueva obra' }}</h2>
 
-    <div class="form-grid">
-      <div class="form-group full">
-        <label>Nombre</label>
-        <input [(ngModel)]="form.nombre" placeholder="Nombre de la obra" />
-      </div>
-      <div class="form-group full">
-        <label>Descripción</label>
-        <textarea [(ngModel)]="form.descripcion" placeholder="Descripción" rows="3"></textarea>
+    <div class="form-group">
+      <label class="form-label">Nombre</label>
+      <input [(ngModel)]="form.nombre" class="form-input" placeholder="Ej: Breaking Bad" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <textarea [(ngModel)]="form.descripcion" class="form-input" rows="3" placeholder="Descripción breve..."></textarea>
+    </div>
+
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label class="form-label">Año</label>
+        <input type="number" [(ngModel)]="form.anio" class="form-input" placeholder="2024" />
       </div>
       <div class="form-group">
-        <label>Año</label>
-        <input [(ngModel)]="form.anio" type="number" placeholder="2024" />
+        <label class="form-label">Episodios</label>
+        <input type="number" [(ngModel)]="form.episodios" class="form-input" placeholder="1" />
       </div>
-      <div class="form-group">
-        <label>Episodios</label>
-        <input [(ngModel)]="form.episodios" type="number" placeholder="1" />
-      </div>
-      <div class="form-group">
-        <label>ID Categoría</label>
-        <input [(ngModel)]="form.id_categoria" placeholder="ID Categoría" />
-      </div>
-      <div class="form-group">
-        <label>ID Género</label>
-        <input [(ngModel)]="form.id_genero" placeholder="ID Género" />
-      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ID Categoría</label>
+      <input [(ngModel)]="form.id_categoria" class="form-input" placeholder="UUID de la categoría" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ID Género</label>
+      <input [(ngModel)]="form.id_genero" class="form-input" placeholder="UUID del género" />
     </div>
 
     <div class="modal-actions">
-      <button (click)="cerrar()" class="btn-cancel">Cancelar</button>
-      <button (click)="guardar()" class="btn-primary">
-        {{ editando ? 'Guardar cambios' : 'Crear obra' }}
-      </button>
+      <button class="btn btn-primary" (click)="guardar()">{{ editando ? 'Guardar' : 'Crear' }}</button>
+      <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
     </div>
   </div>
 </div>
