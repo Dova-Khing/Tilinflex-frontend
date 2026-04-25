@@ -8,6 +8,7 @@ import { ObrasService } from '../../core/services/obras.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './obras.component.html',
+  styleUrl: './obras.component.scss',   // ← agregado
 })
 export class ObrasComponent implements OnInit {
   obras: any[] = [];

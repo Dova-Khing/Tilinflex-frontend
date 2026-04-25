@@ -8,6 +8,7 @@ import { UsuariosService } from '../../core/services/usuarios.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './usuarios.component.html',
+  styleUrl: './usuarios.component.scss',
 })
 export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
