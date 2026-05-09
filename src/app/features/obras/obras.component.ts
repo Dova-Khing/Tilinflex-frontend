@@ -13,10 +13,10 @@ import { ObrasService } from '../../core/services/obras.service';
 export class ObrasComponent implements OnInit {
   obras: any[] = [];
   cargando = true;
+  importando = false;
   error = '';
-  mostrarModal = false;
-  editando = false;
-  form: any = this.formVacio();
+  errorImport = '';
+  malIdInput: number | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -32,38 +32,30 @@ export class ObrasComponent implements OnInit {
     this.cargando = true;
     this.service.getAll().subscribe({
       next: (data: any) => { this.obras = data?.data ?? data; this.cargando = false; },
-      error: () => { this.error = 'Error al cargar obras'; this.cargando = false; }
+      error: () => { this.error = 'Error al cargar el catálogo'; this.cargando = false; },
     });
   }
 
-  formVacio() {
-    return { nombre: '', descripcion: '', episodios: 1, anio: 2024, id_categoria: '', id_genero: '' };
-  }
-
-  abrirCrear() {
-    this.form = this.formVacio();
-    this.editando = false;
-    this.mostrarModal = true;
-  }
-
-  abrirEditar(obra: any) {
-    this.form = { ...obra };
-    this.editando = true;
-    this.mostrarModal = true;
-  }
-
-  guardar() {
-    if (this.editando) {
-      this.service.update(this.form.id_obra, this.form).subscribe({ next: () => { this.cerrar(); this.cargar(); } });
-    } else {
-      this.service.create(this.form).subscribe({ next: () => { this.cerrar(); this.cargar(); } });
-    }
+  importar() {
+    if (!this.malIdInput) return;
+    this.importando = true;
+    this.errorImport = '';
+    this.service.importar(this.malIdInput).subscribe({
+      next: () => { this.malIdInput = null; this.importando = false; this.cargar(); },
+      error: (e: any) => {
+        this.errorImport = e?.error?.detail ?? 'Error al importar el anime';
+        this.importando = false;
+      },
+    });
   }
 
   eliminar(id: string) {
-    if (!confirm('¿Eliminar esta obra?')) return;
+    if (!confirm('¿Quitar este anime del catálogo?')) return;
     this.service.delete(id).subscribe({ next: () => this.cargar() });
   }
 
-  cerrar() { this.mostrarModal = false; }
+  generos(obra: any): string {
+    try { return JSON.parse(obra.generos_externos ?? '[]').join(', ') || '—'; }
+    catch { return '—'; }
+  }
 }

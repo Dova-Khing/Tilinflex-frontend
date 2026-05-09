@@ -1,0 +1,93 @@
+<div class="perfiles-page">
+  <div class="perfiles-container">
+
+    <h1 class="titulo">¿Quién está viendo?</h1>
+
+    <div *ngIf="cargando" class="loading">Cargando perfiles...</div>
+
+    <div *ngIf="!cargando" class="perfiles-grid">
+
+      <!-- Cards de perfil -->
+      <div
+        *ngFor="let p of perfiles"
+        class="perfil-card"
+        [class.edicion]="modoEdicion"
+        (click)="seleccionar(p)"
+      >
+        <div class="avatar-wrap">
+          <img [src]="avatarUrl(p.avatar_url)" [alt]="p.nombre_usuario" class="avatar" />
+          <div *ngIf="modoEdicion" class="edicion-overlay">
+            <button class="btn-icono" (click)="abrirEditar(p, $event)" title="Editar">✏️</button>
+            <button class="btn-icono danger" (click)="eliminar(p, $event)" title="Eliminar">🗑️</button>
+          </div>
+        </div>
+        <span class="perfil-nombre">{{ p.nombre_usuario }}</span>
+        <span *ngIf="p.es_infantil" class="badge-infantil">Kids</span>
+      </div>
+
+      <!-- Card añadir perfil -->
+      <div
+        *ngIf="perfiles.length < MAX"
+        class="perfil-card add-card"
+        (click)="abrirCrear()"
+      >
+        <div class="avatar-wrap add-avatar">
+          <span class="add-icon">+</span>
+        </div>
+        <span class="perfil-nombre">Añadir perfil</span>
+      </div>
+
+    </div>
+
+    <button class="btn-editar" (click)="modoEdicion = !modoEdicion">
+      {{ modoEdicion ? 'Listo' : 'Gestionar perfiles' }}
+    </button>
+
+  </div>
+</div>
+
+<!-- MODAL crear/editar -->
+<div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrar()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2 class="modal-titulo">{{ editando ? 'Editar perfil' : 'Nuevo perfil' }}</h2>
+
+    <div class="avatar-preview">
+      <img [src]="avatarUrl(form.avatar_url)" alt="Avatar seleccionado" class="avatar-grande" />
+    </div>
+
+    <div class="avatar-picker">
+      <div
+        *ngFor="let av of avatarOptions()"
+        class="avatar-opcion"
+        [class.selected]="form.avatar_url === av"
+        (click)="form.avatar_url = av"
+      >
+        <img [src]="avatarUrl(av)" [alt]="av" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input
+        [(ngModel)]="form.nombre_usuario"
+        class="form-input"
+        placeholder="Nombre del perfil"
+        maxlength="20"
+        (keydown.enter)="guardar()"
+      />
+    </div>
+
+    <label class="check-label">
+      <input type="checkbox" [(ngModel)]="form.es_infantil" />
+      Perfil infantil (Kids)
+    </label>
+
+    <p *ngIf="error" class="error-msg">{{ error }}</p>
+
+    <div class="modal-acciones">
+      <button class="btn btn-primary" (click)="guardar()">
+        {{ editando ? 'Guardar' : 'Crear' }}
+      </button>
+      <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
+    </div>
+  </div>
+</div>

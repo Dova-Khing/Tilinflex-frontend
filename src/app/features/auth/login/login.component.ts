@@ -39,7 +39,8 @@ export class LoginComponent {
     this.auth.login(this.email, this.contrasena).subscribe({
       next: (res: any) => {
         this.auth.saveToken(res.data.access_token);
-        this.router.navigate(['/']); // Redirige al usuario a la página principal después de un inicio de sesión exitoso
+        const destino = this.auth.isAdmin() ? '/admin/dashboard' : '/perfiles';
+        this.router.navigate([destino]);
       },
       error: (err) => {
         this.error = err.error?.detail || 'Credenciales incorrectas';
