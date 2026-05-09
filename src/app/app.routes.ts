@@ -40,23 +40,23 @@ export const routes: Routes = [
       {
         path: 'categorias',
         loadComponent: () =>
-          import('./features/catalogo/categorias/categorias.component').then((m) => m.CategoriasComponent),
+          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
       },
       {
         path: 'generos',
         loadComponent: () =>
-          import('./features/catalogo/generos/generos.component').then((m) => m.GenerosComponent),
+          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
       },
       {
         path: 'perfil',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/perfil/perfil/perfil.component').then((m) => m.PerfilComponent),
+          import('./features/perfil/perfil.component').then((m) => m.PerfilComponent),
       },
       {
         path: 'suscripciones',
         loadComponent: () =>
-          import('./features/suscripcion/suscripcion/suscripcion.component').then((m) => m.SuscripcionComponent),
+          import('./features/suscripcion/suscripcion.component').then((m) => m.SuscripcionComponent),
       },
     ],
   },

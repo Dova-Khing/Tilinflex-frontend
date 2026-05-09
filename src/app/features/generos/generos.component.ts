@@ -1,6 +1,6 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { GenerosService } from '../../../core/services/generos.service';
+import { GenerosService } from '../../core/services/generos.service';
 
 @Component({
   selector: 'app-generos',
@@ -23,7 +23,7 @@ export class GenerosComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) { this.cargando = false; return; }
     this.service.getAll().subscribe({
       next: (data) => { this.generos = data; this.cargando = false; },
-      error: () => { this.error = 'Error al cargar géneros'; this.cargando = false; },
+      error: () => { this.error = 'Error al cargar gÃ©neros'; this.cargando = false; },
     });
   }
 }

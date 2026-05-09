@@ -1,7 +1,7 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SuscripcionesService } from '../../../core/services/suscripciones.service';
+import { SuscripcionesService } from '../../core/services/suscripciones.service';
 
 @Component({
   selector: 'app-suscripcion',

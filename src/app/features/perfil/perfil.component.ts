@@ -1,6 +1,6 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
-import { PerfilService } from '../../../core/services/perfil.service';
+import { PerfilService } from '../../core/services/perfil.service';
 
 @Component({
   selector: 'app-perfil',

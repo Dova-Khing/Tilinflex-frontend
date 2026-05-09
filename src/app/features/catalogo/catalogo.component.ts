@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CategoriasService } from '../../../core/services/categorias.service';
-import { GenerosService } from '../../../core/services/generos.service';
+import { CategoriasService } from '../../core/services/categorias.service';
+import { GenerosService } from '../../core/services/generos.service';
 
 interface CatalogoConfig {
   titulo: string;
@@ -28,7 +28,6 @@ export class CatalogoComponent implements OnInit {
   editando = false;
   form: any = this.formVacio();
 
-  // Configuración dinámica según la ruta activa
   config: CatalogoConfig = {
     titulo: 'Categorías',
     subtitulo: 'Gestión de categorías',
@@ -45,7 +44,6 @@ export class CatalogoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Detecta si la URL activa es /generos o /categorias
     this.esGeneros = this.router.url.includes('generos');
 
     if (this.esGeneros) {
