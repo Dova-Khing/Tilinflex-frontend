@@ -1,0 +1,103 @@
+<!-- LOADING -->
+<div *ngIf="cargando" class="loading-screen">
+  <div class="spinner"></div>
+  <p>Cargando contenido...</p>
+</div>
+
+<!-- ERROR -->
+<div *ngIf="error && !cargando" class="error-screen">
+  <p>{{ error }}</p>
+</div>
+
+<!-- HERO SPOTLIGHT -->
+<section *ngIf="!cargando && hero" class="hero" [style.background-image]="'url(' + (hero.banner ?? hero.poster) + ')'">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-rank" *ngIf="hero.rank">#{{ hero.rank }}</div>
+    <h1 class="hero-title">{{ hero.name }}</h1>
+    <p class="hero-desc">{{ hero.description | slice:0:200 }}{{ (hero.description?.length ?? 0) > 200 ? '…' : '' }}</p>
+    <div class="hero-meta">
+      <span class="badge" *ngIf="hero.type">{{ hero.type }}</span>
+      <span class="badge ep" *ngIf="episodeLabel(hero)">{{ episodeLabel(hero) }}</span>
+    </div>
+    <div class="hero-actions">
+      <a [routerLink]="['/anime', hero.id]" class="btn-play">▶ Ver ahora</a>
+      <a [routerLink]="['/anime', hero.id]" class="btn-info">Más info</a>
+    </div>
+  </div>
+
+  <!-- Dots nav -->
+  <div class="hero-dots" *ngIf="spotlight.length > 1">
+    <button *ngFor="let s of spotlight; let i = index"
+      class="dot" [class.active]="i === heroIndex"
+      (click)="setHero(i)">
+    </button>
+  </div>
+  <button class="hero-arrow prev" (click)="prevHero()">&#8249;</button>
+  <button class="hero-arrow next" (click)="nextHero()">&#8250;</button>
+</section>
+
+<!-- TRENDING -->
+<section class="content-section" *ngIf="trending.length">
+  <div class="section-header">
+    <h2>En tendencia</h2>
+    <a routerLink="/browse" class="see-all">Ver todo →</a>
+  </div>
+  <div class="cards-scroll">
+    <a *ngFor="let a of trending" [routerLink]="['/anime', a.id]" class="anime-card">
+      <div class="card-rank" *ngIf="a.rank">#{{ a.rank }}</div>
+      <img [src]="a.poster" [alt]="a.name" loading="lazy" />
+      <div class="card-info">
+        <span class="card-title">{{ a.name }}</span>
+        <span class="card-eps" *ngIf="episodeLabel(a)">{{ episodeLabel(a) }}</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ÚLTIMOS EPISODIOS -->
+<section class="content-section" *ngIf="latestEpisodes.length">
+  <div class="section-header">
+    <h2>Últimos episodios</h2>
+    <a [routerLink]="['/browse']" [queryParams]="{sort:'recently-updated'}" class="see-all">Ver todo →</a>
+  </div>
+  <div class="cards-grid">
+    <a *ngFor="let a of latestEpisodes | slice:0:12" [routerLink]="['/anime', a.id]" class="anime-card-grid">
+      <img [src]="a.poster" [alt]="a.name" loading="lazy" />
+      <div class="card-info">
+        <span class="card-title">{{ a.name }}</span>
+        <span class="card-eps" *ngIf="episodeLabel(a)">{{ episodeLabel(a) }}</span>
+        <span class="badge-sm" *ngIf="a.type">{{ a.type }}</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PRÓXIMOS ESTRENOS -->
+<section class="content-section" *ngIf="topUpcoming.length">
+  <div class="section-header">
+    <h2>Próximamente</h2>
+  </div>
+  <div class="cards-scroll">
+    <a *ngFor="let a of topUpcoming | slice:0:10" [routerLink]="['/anime', a.id]" class="anime-card upcoming">
+      <img [src]="a.poster" [alt]="a.name" loading="lazy" />
+      <div class="card-info">
+        <span class="card-title">{{ a.name }}</span>
+        <span class="badge-sm upcoming-badge">Próximamente</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- GÉNEROS -->
+<section class="content-section genres-section" *ngIf="genres.length">
+  <div class="section-header"><h2>Explorar por género</h2></div>
+  <div class="genres-grid">
+    <a *ngFor="let g of genres"
+      [routerLink]="['/browse']"
+      [queryParams]="{genres: g.id}"
+      class="genre-pill">
+      {{ g.name }}
+    </a>
+  </div>
+</section>

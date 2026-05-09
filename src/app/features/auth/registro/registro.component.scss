@@ -1,0 +1,181 @@
+$color-bg:           #0f172a;
+$color-surface:      #1e293b;
+$color-input-bg:     #273549;
+$color-text:         #f1f5f9;
+$color-muted:        #94a3b8;
+$color-subtle:       #64748b;
+$color-accent:       #3b82f6;
+$color-accent-hover: #2563eb;
+$color-accent-light: #60a5fa;
+$color-error-bg:     rgba(127, 29, 29, 0.4);
+$color-error-border: #ef4444;
+$color-error-text:   #fca5a5;
+ 
+$radius-sm: 0.5rem;
+$radius-md: 0.75rem;
+$radius-xl: 1rem;
+ 
+$transition-base: 150ms ease;
+ 
+// ─── Host / Página ───────────────────────────────────────────────────────────
+ 
+:host {
+  display: block;
+}
+ 
+.registro-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+ 
+// ─── Card ─────────────────────────────────────────────────────────────────────
+ 
+.registro-card {
+  width: 100%;
+  max-width: 28rem;
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  padding: 2rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -4px rgba(0, 0, 0, 0.4);
+}
+ 
+// ─── Encabezado ───────────────────────────────────────────────────────────────
+ 
+.registro-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: $color-text;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+ 
+.registro-subtitle {
+  color: $color-muted;
+  font-size: 0.875rem;
+  margin: 0 0 1.5rem;
+}
+ 
+// ─── Error ────────────────────────────────────────────────────────────────────
+ 
+.registro-error {
+  background-color: $color-error-bg;
+  border: 1px solid $color-error-border;
+  color: $color-error-text;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: $radius-sm;
+  margin-bottom: 1rem;
+}
+ 
+// ─── Formulario ───────────────────────────────────────────────────────────────
+ 
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+ 
+// ─── Grid de 2 columnas ───────────────────────────────────────────────────────
+ 
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+ 
+// ─── Campo ────────────────────────────────────────────────────────────────────
+ 
+.field {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.field__label {
+  display: block;
+  color: $color-muted;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+ 
+.field__input {
+  width: 100%;
+  background-color: $color-input-bg;
+  color: $color-text;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition:
+    border-color $transition-base,
+    box-shadow $transition-base;
+  box-sizing: border-box;
+ 
+  &[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+ 
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+ 
+  &::placeholder {
+    color: $color-subtle;
+  }
+ 
+  &:focus {
+    border-color: $color-accent;
+    box-shadow: 0 0 0 2px rgba($color-accent, 0.35);
+  }
+}
+ 
+// ─── Botón ────────────────────────────────────────────────────────────────────
+ 
+.registro-btn {
+  width: 100%;
+  background-color: $color-accent;
+  color: $color-text;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: background-color $transition-base;
+ 
+  &:hover:not(:disabled) {
+    background-color: $color-accent-hover;
+  }
+ 
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+ 
+// ─── Footer ───────────────────────────────────────────────────────────────────
+ 
+.registro-footer {
+  color: $color-subtle;
+  font-size: 0.875rem;
+  margin-top: 1.5rem;
+  text-align: center;
+ 
+  a {
+    color: $color-accent-light;
+    text-decoration: none;
+ 
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

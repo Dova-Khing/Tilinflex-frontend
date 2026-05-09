@@ -1,0 +1,155 @@
+// Shared admin page styles — import in each feature SCSS
+
+.page {
+  padding: 28px 32px;
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1e293b;
+  @media (max-width: 768px) { padding: 16px; }
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-title { font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; }
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #94a3b8;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 13px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  &:active { transform: scale(.97); }
+}
+
+.btn-primary  { background: #2563eb; color: #fff; &:hover { background: #1d4ed8; } }
+.btn-danger   { background: #fee2e2; color: #dc2626; &:hover { background: #fecaca; } }
+.btn-secondary { background: #f1f5f9; color: #475569; &:hover { background: #e2e8f0; } }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #64748b;
+
+  &.mensual    { background: #dbeafe; color: #2563eb; }
+  &.anual      { background: #d1fae5; color: #059669; }
+  &.trimestral { background: #fef3c7; color: #d97706; }
+  &.si         { background: #fce7f3; color: #be185d; }
+  &.no         { background: #f1f5f9; color: #64748b; }
+}
+
+.text-muted   { color: #94a3b8; }
+.text-bold    { font-weight: 600; }
+.empty-state  { text-align: center; padding: 48px 0; color: #94a3b8; font-size: 14px; }
+.loading      { text-align: center; padding: 40px 0; color: #94a3b8; font-size: 14px; }
+.error-msg    { background: #fee2e2; color: #dc2626; padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
+
+// Modal
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+
+.modal-title { font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 20px; }
+
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+
+.form-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #475569;
+}
+
+.form-input, .form-select {
+  padding: 9px 13px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1e293b;
+  background: #fff;
+  outline: none;
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+  &:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+}
+
+.form-select { cursor: pointer; }
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+  cursor: pointer;
+  input { accent-color: #2563eb; width: 16px; height: 16px; cursor: pointer; }
+}
+
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; .btn { flex: 1; justify-content: center; } }

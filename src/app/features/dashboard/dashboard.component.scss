@@ -1,0 +1,285 @@
+// ── Tokens ─────────────────────────────────────────────────
+$bg:      #f8fafc;
+$white:   #ffffff;
+$dark:    #0f172a;
+$text:    #1e293b;
+$muted:   #94a3b8;
+$border:  #e2e8f0;
+
+$blue:    #2563eb;
+$indigo:  #4f46e5;
+$violet:  #7c3aed;
+$teal:    #0d9488;
+$amber:   #d97706;
+$rose:    #e11d48;
+
+// ── Layout ─────────────────────────────────────────────────
+.dashboard {
+  padding: 28px 32px;
+  background: $bg;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: $text;
+
+  @media (max-width: 768px) { padding: 16px; }
+}
+
+// ── Header ─────────────────────────────────────────────────
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dash-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: $dark;
+  margin: 0;
+}
+
+.dash-subtitle {
+  font-size: 13px;
+  color: $muted;
+  margin: 4px 0 0;
+}
+
+.dash-date {
+  font-size: 13px;
+  color: $muted;
+  background: $white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid $border;
+  text-transform: capitalize;
+}
+
+// ── Stats grid ─────────────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 600px)  { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-card {
+  background: $white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+  transition: transform .15s, box-shadow .15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,.1);
+  }
+
+  &.blue   { border-color: $blue;   .stat-icon { background: rgba($blue,  .1); } }
+  &.indigo { border-color: $indigo; .stat-icon { background: rgba($indigo,.1); } }
+  &.violet { border-color: $violet; .stat-icon { background: rgba($violet,.1); } }
+  &.teal   { border-color: $teal;   .stat-icon { background: rgba($teal,  .1); } }
+  &.amber  { border-color: $amber;  .stat-icon { background: rgba($amber, .1); } }
+  &.rose   { border-color: $rose;   .stat-icon { background: rgba($rose,  .1); } }
+}
+
+.stat-icon {
+  font-size: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: $muted;
+  white-space: nowrap;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: $dark;
+  line-height: 1;
+}
+
+// ── Main grid ──────────────────────────────────────────────
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: auto auto;
+  gap: 20px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.full-col {
+  grid-column: 1 / -1;
+}
+
+// ── Card ───────────────────────────────────────────────────
+.card {
+  background: $white;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: $dark;
+  margin: 0;
+}
+
+.ver-todo {
+  font-size: 13px;
+  font-weight: 600;
+  color: $blue;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: $muted;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+
+  &.blue       { background: $blue; }
+  &.blue-light { background: #bfdbfe; }
+}
+
+// ── Chart ──────────────────────────────────────────────────
+.chart-wrap {
+  height: 240px;
+
+  canvas { width: 100% !important; height: 100% !important; }
+}
+
+// ── Quick links ────────────────────────────────────────────
+.quick-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.qlink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text;
+  background: $bg;
+  border: 1px solid $border;
+  transition: background .15s, border-color .15s, color .15s;
+
+  &:hover { border-color: currentColor; background: $white; }
+
+  &.blue   { &:hover { color: $blue;   } }
+  &.indigo { &:hover { color: $indigo; } }
+  &.violet { &:hover { color: $violet; } }
+  &.teal   { &:hover { color: $teal;   } }
+  &.amber  { &:hover { color: $amber;  } }
+  &.rose   { &:hover { color: $rose;   } }
+}
+
+.qlink-icon { font-size: 18px; }
+
+// ── Table ──────────────────────────────────────────────────
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: $muted;
+    padding: 0 12px 12px;
+    border-bottom: 1px solid $border;
+
+    &:first-child { padding-left: 0; }
+  }
+
+  td {
+    padding: 13px 12px;
+    border-bottom: 1px solid $bg;
+    color: $text;
+
+    &:first-child { padding-left: 0; }
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: $bg; }
+}
+
+.bold  { font-weight: 600; }
+.muted { color: $muted; }
+.empty { text-align: center; color: $muted; padding: 32px 0 !important; }
+
+// ── Badges ─────────────────────────────────────────────────
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  background: #f1f5f9;
+  color: $muted;
+
+  &.activo    { background: #dcfce7; color: #16a34a; }
+  &.inactivo  { background: #fee2e2; color: #dc2626; }
+  &.pendiente { background: #fef3c7; color: #d97706; }
+}

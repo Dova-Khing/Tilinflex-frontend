@@ -1,0 +1,75 @@
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">Suscripciones</h1>
+    <button class="btn btn-primary" (click)="abrirCrear()">+ Nueva suscripción</button>
+  </div>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div class="card">
+    <div *ngIf="cargando" class="loading">Cargando suscripciones...</div>
+    <table *ngIf="!cargando" class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo</th>
+          <th>Usuario ID</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th style="text-align:center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of suscripciones; let i = index">
+          <td class="text-muted">{{ i + 1 }}</td>
+          <td><span class="badge" [ngClass]="s.tipo_suscripcion">{{ s.tipo_suscripcion }}</span></td>
+          <td class="text-muted" style="font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis">{{ s.id_usuario }}</td>
+          <td>{{ s.fecha_inicio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ s.fecha_fin ? (s.fecha_fin | date:'dd/MM/yyyy') : '—' }}</td>
+          <td style="text-align:center">
+            <button class="btn btn-secondary btn-sm" (click)="abrirEditar(s)">Editar</button>
+          </td>
+        </tr>
+        <tr *ngIf="suscripciones.length === 0">
+          <td colspan="6" class="empty-state">No hay suscripciones registradas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="mostrarModal" class="modal-overlay">
+  <div class="modal">
+    <h2 class="modal-title">{{ editando ? 'Editar suscripción' : 'Nueva suscripción' }}</h2>
+
+    <div class="form-group">
+      <label class="form-label">Tipo</label>
+      <select [(ngModel)]="form.tipo_suscripcion" class="form-select">
+        <option value="mensual">Mensual</option>
+        <option value="trimestral">Trimestral</option>
+        <option value="anual">Anual</option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="!editando">
+      <label class="form-label">ID Usuario</label>
+      <input [(ngModel)]="form.id_usuario" class="form-input" placeholder="UUID del usuario" />
+    </div>
+
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label class="form-label">Fecha inicio</label>
+        <input type="date" [(ngModel)]="form.fecha_inicio" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha fin</label>
+        <input type="date" [(ngModel)]="form.fecha_fin" class="form-input" />
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="guardar()">{{ editando ? 'Guardar' : 'Crear' }}</button>
+      <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
+    </div>
+  </div>
+</div>

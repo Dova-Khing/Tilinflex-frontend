@@ -1,0 +1,103 @@
+<!-- LOADING INFO -->
+<div *ngIf="cargandoInfo" class="loading-screen">
+  <div class="spinner"></div>
+</div>
+
+<!-- ERROR INFO -->
+<div *ngIf="errorInfo" class="error-screen">{{ errorInfo }}</div>
+
+<!-- DETALLE -->
+<div *ngIf="!cargandoInfo && info" class="detail-page">
+
+  <!-- BANNER -->
+  <div class="banner" [style.background-image]="'url(' + (infoInfo?.poster ?? '') + ')'">
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+      <span class="badge-type" *ngIf="infoInfo?.stats?.type">{{ infoInfo.stats.type }}</span>
+      <h1>{{ infoInfo?.name }}</h1>
+      <p class="anime-desc">{{ infoInfo?.description | slice:0:250 }}{{ (infoInfo?.description?.length ?? 0) > 250 ? '…' : '' }}</p>
+      <div class="meta-row">
+        <span *ngIf="infoInfo?.stats?.rating" class="meta-pill">⭐ {{ infoInfo.stats.rating }}</span>
+        <span *ngIf="infoInfo?.stats?.quality" class="meta-pill">{{ infoInfo.stats.quality }}</span>
+        <span *ngIf="moreInfo?.status" class="meta-pill">{{ moreInfo.status }}</span>
+        <span *ngIf="moreInfo?.premiered" class="meta-pill">{{ moreInfo.premiered }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYER + EPISODIOS -->
+  <div class="main-layout">
+
+    <!-- PLAYER -->
+    <section class="player-section">
+
+      <!-- CONTROLES -->
+      <div class="player-controls" *ngIf="selectedEp">
+        <div class="type-btns">
+          <button (click)="cambiarTipo('sub')"  [class.active]="selectedType==='sub'"  class="type-btn">SUB</button>
+          <button (click)="cambiarTipo('dub')"  [class.active]="selectedType==='dub'"  class="type-btn">DUB</button>
+          <button (click)="cambiarTipo('raw')"  [class.active]="selectedType==='raw'"  class="type-btn">RAW</button>
+        </div>
+        <div class="server-btns" *ngIf="servers.length">
+          <button *ngFor="let s of servers" (click)="cambiarServer(s.serverName ?? s)"
+            [class.active]="selectedServer === (s.serverName ?? s)"
+            class="server-btn">
+            {{ s.serverName ?? s }}
+          </button>
+        </div>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-wrap">
+        <div *ngIf="cargandoStream" class="video-loading"><div class="spinner"></div></div>
+        <div *ngIf="errorStream && !cargandoStream" class="video-error">{{ errorStream }}</div>
+        <div *ngIf="!selectedEp && !cargandoStream" class="video-placeholder">
+          Seleccioná un episodio para reproducir
+        </div>
+        <iframe
+          *ngIf="streamUrl && !cargandoStream"
+          [src]="streamUrl"
+          allowfullscreen
+          allow="autoplay; fullscreen"
+          class="video-player"
+        ></iframe>
+      </div>
+
+      <!-- EP ACTUAL -->
+      <div class="now-playing" *ngIf="selectedEp">
+        Episodio {{ selectedEp?.number ?? selectedEp?.episodeNo }} — {{ selectedEp?.title ?? selectedEp?.name ?? '' }}
+      </div>
+    </section>
+
+    <!-- LISTA EPISODIOS -->
+    <aside class="episodes-list">
+      <h3 class="ep-list-title">Episodios <span>({{ episodes.length }})</span></h3>
+      <div class="ep-scroll">
+        <button
+          *ngFor="let ep of episodes"
+          (click)="seleccionarEp(ep)"
+          class="ep-item"
+          [class.active]="selectedEp?.episodeId === ep.episodeId"
+        >
+          <span class="ep-num">{{ ep.number ?? ep.episodeNo }}</span>
+          <span class="ep-title">{{ ep.title ?? ep.name ?? 'Episodio ' + (ep.number ?? ep.episodeNo) }}</span>
+          <span class="ep-filler" *ngIf="ep.isFiller">Filler</span>
+        </button>
+        <div *ngIf="episodes.length === 0" class="ep-empty">Sin episodios disponibles</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- INFO EXTRA -->
+  <section class="extra-info" *ngIf="moreInfo">
+    <div class="info-grid">
+      <div *ngIf="moreInfo.japanese"  class="info-item"><span>Japonés</span><p>{{ moreInfo.japanese }}</p></div>
+      <div *ngIf="moreInfo.genres"    class="info-item"><span>Géneros</span><p>{{ moreInfo.genres.join(', ') }}</p></div>
+      <div *ngIf="moreInfo.studios"   class="info-item"><span>Estudio</span><p>{{ moreInfo.studios }}</p></div>
+      <div *ngIf="moreInfo.producers" class="info-item"><span>Productoras</span><p>{{ moreInfo.producers.join(', ') }}</p></div>
+      <div *ngIf="moreInfo.duration"  class="info-item"><span>Duración</span><p>{{ moreInfo.duration }}</p></div>
+    </div>
+  </section>
+
+</div>
