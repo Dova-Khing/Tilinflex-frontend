@@ -38,10 +38,39 @@
 
   <div class="navbar-actions">
     <ng-container *ngIf="currentUser; else loginBtn">
-     <a *ngIf="currentUser['admin']" routerLink="/admin/dashboard" class="btn-admin">Panel Admin</a>
-      <div class="user-menu">
-        <span class="navbar-username">{{ currentUser['email'] }}</span>
-        <button class="btn-logout" (click)="logout()">Salir</button>
+      <a *ngIf="currentUser['admin']" routerLink="/admin/dashboard" class="btn-admin">Admin</a>
+
+      <div class="profile-menu" (blur)="cerrarMenu()" tabindex="0">
+        <button class="profile-btn" (click)="toggleMenu()">
+          <img
+            *ngIf="perfilActivo"
+            [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)"
+            class="profile-avatar"
+            alt="perfil"
+          />
+          <div *ngIf="!perfilActivo" class="profile-avatar-fallback">
+            {{ currentUser['email']?.[0]?.toUpperCase() }}
+          </div>
+          <span class="profile-name">{{ perfilActivo?.nombre_usuario ?? 'Perfil' }}</span>
+          <span class="caret" [class.open]="menuAbierto">▾</span>
+        </button>
+
+        <div *ngIf="menuAbierto" class="profile-dropdown">
+          <div *ngIf="perfilActivo" class="dropdown-header">
+            <img [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)" class="dd-avatar" alt="" />
+            <div>
+              <div class="dd-name">{{ perfilActivo.nombre_usuario }}</div>
+              <div class="dd-email">{{ currentUser['email'] }}</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" (click)="cambiarPerfil()">
+            <span>⇄</span> Cambiar perfil
+          </button>
+          <button class="dropdown-item danger" (click)="logout()">
+            <span>⇠</span> Cerrar sesión
+          </button>
+        </div>
       </div>
     </ng-container>
 

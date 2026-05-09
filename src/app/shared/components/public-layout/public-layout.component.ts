@@ -4,7 +4,8 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { AnimeService } from '../../../core/services/anime.service';
-import { AuthService } from '../../../core/services/auth.service'; 
+import { AuthService } from '../../../core/services/auth.service';
+import { PerfilService, Perfil } from '../../../core/services/perfil.service';
 
 
 @Component({
@@ -20,16 +21,26 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
   showSuggestions = false;
   scrolled = false;
   currentUser: Record<string, any> | null = null;
+  perfilActivo: Perfil | null = null;
+  menuAbierto = false;
 
   private search$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
-  constructor(private anime: AnimeService, private router: Router, public auth: AuthService) {}
+  constructor(
+    private anime: AnimeService,
+    private router: Router,
+    public auth: AuthService,
+    public perfilSvc: PerfilService,
+  ) {}
 
   ngOnInit() {
   this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
-    console.log('user$ emitió:', user);
     this.currentUser = user;
+  });
+
+  this.perfilSvc.perfilActivo.pipe(takeUntil(this.destroy$)).subscribe(p => {
+    this.perfilActivo = p;
   });
 
   this.search$.pipe(
@@ -71,9 +82,18 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.perfilSvc.limpiar();
     this.auth.logout();
     this.router.navigate(['/login']);
   }
+
+  cambiarPerfil() {
+    this.menuAbierto = false;
+    this.router.navigate(['/perfiles']);
+  }
+
+  toggleMenu() { this.menuAbierto = !this.menuAbierto; }
+  cerrarMenu() { setTimeout(() => this.menuAbierto = false, 150); }
 
   hideSuggestions() { setTimeout(() => this.showSuggestions = false, 150); }
 }

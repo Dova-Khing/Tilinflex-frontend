@@ -58,19 +58,136 @@
   margin-left: auto;
 }
 
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+// ─── PROFILE DROPDOWN ────────────────────────────────────
+.profile-menu {
+  position: relative;
+  outline: none;
 }
 
-.navbar-username {
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 5px 12px 5px 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+}
+
+.profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #1e1e1e;
+  flex-shrink: 0;
+}
+
+.profile-avatar-fallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e50914;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profile-name {
   font-size: 0.85rem;
-  color: rgba(255,255,255,.7);
-  max-width: 160px;
+  font-weight: 500;
+  max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.caret {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  transition: transform 0.2s;
+  &.open { transform: rotate(180deg); }
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: #1c1c2e;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  animation: dropIn 0.18s ease;
+  z-index: 200;
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+
+  .dd-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #1e1e1e;
+    flex-shrink: 0;
+  }
+
+  .dd-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .dd-email {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 130px;
+  }
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover { background: rgba(255,255,255,0.07); color: #fff; }
+  &.danger:hover { background: rgba(229,9,20,0.15); color: #e50914; }
 }
 
 .btn-admin {
