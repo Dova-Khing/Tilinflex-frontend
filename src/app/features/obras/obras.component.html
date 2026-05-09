@@ -1,82 +1,70 @@
 <div class="page">
   <div class="page-header">
-    <h1 class="page-title">Obras</h1>
-    <button class="btn btn-primary" (click)="abrirCrear()">+ Crear obra</button>
+    <h1 class="page-title">Catálogo</h1>
+  </div>
+
+  <!-- IMPORTAR -->
+  <div class="card" style="margin-bottom:20px">
+    <h2 class="card-title" style="margin-bottom:12px">Importar desde MyAnimeList</h2>
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <input
+        type="number"
+        [(ngModel)]="malIdInput"
+        class="form-input"
+        placeholder="MAL ID  (ej: 5114)"
+        style="max-width:220px"
+        (keydown.enter)="importar()"
+      />
+      <button class="btn btn-primary" (click)="importar()" [disabled]="importando || !malIdInput">
+        {{ importando ? 'Importando...' : 'Importar' }}
+      </button>
+    </div>
+    <p *ngIf="errorImport" class="error-msg" style="margin-top:8px">{{ errorImport }}</p>
+    <p style="margin-top:8px;font-size:12px;color:#94a3b8">
+      Busca el ID en <strong>myanimelist.net/anime/&lt;ID&gt;</strong> — se guarda o actualiza automáticamente.
+    </p>
   </div>
 
   <div *ngIf="error" class="error-msg">{{ error }}</div>
 
+  <!-- TABLA -->
   <div class="card">
-    <div *ngIf="cargando" class="loading">Cargando obras...</div>
+    <div *ngIf="cargando" class="loading">Cargando catálogo...</div>
     <table *ngIf="!cargando" class="data-table">
       <thead>
         <tr>
-          <th>#</th>
+          <th></th>
           <th>Nombre</th>
-          <th>Descripción</th>
+          <th>Tipo</th>
           <th>Año</th>
-          <th>Episodios</th>
+          <th>Score</th>
+          <th>Estado</th>
+          <th>Géneros</th>
           <th style="text-align:center">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let obra of obras; let i = index">
-          <td class="text-muted">{{ i + 1 }}</td>
-          <td class="text-bold">{{ obra.nombre }}</td>
-          <td class="text-muted" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ obra.descripcion }}</td>
-          <td>{{ obra.anio }}</td>
-          <td>{{ obra.episodios }}</td>
-          <td style="text-align:center;white-space:nowrap">
-            <button class="btn btn-secondary btn-sm" (click)="abrirEditar(obra)" style="margin-right:6px">Editar</button>
-            <button class="btn btn-danger btn-sm" (click)="eliminar(obra.id_obra)">Eliminar</button>
+        <tr *ngFor="let obra of obras">
+          <td style="width:48px;padding:6px">
+            <img *ngIf="obra.thumbnail_url" [src]="obra.thumbnail_url" alt="" style="width:36px;height:52px;object-fit:cover;border-radius:4px" />
+          </td>
+          <td>
+            <div class="text-bold">{{ obra.nombre }}</div>
+            <div class="text-muted" style="font-size:11px">{{ obra.nombre_japones }}</div>
+          </td>
+          <td><span class="badge">{{ obra.tipo || '—' }}</span></td>
+          <td>{{ obra.anio || '—' }}</td>
+          <td>{{ obra.puntuacion || '—' }}</td>
+          <td>{{ obra.estado || '—' }}</td>
+          <td class="text-muted" style="font-size:12px;max-width:180px">{{ generos(obra) }}</td>
+          <td style="text-align:center">
+            <button class="btn btn-danger btn-sm" (click)="eliminar(obra.id_obra)">Quitar</button>
           </td>
         </tr>
         <tr *ngIf="obras.length === 0">
-          <td colspan="6" class="empty-state">No hay obras registradas</td>
+          <td colspan="8" class="empty-state">El catálogo está vacío — importa tu primer anime</td>
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<div *ngIf="mostrarModal" class="modal-overlay">
-  <div class="modal">
-    <h2 class="modal-title">{{ editando ? 'Editar obra' : 'Nueva obra' }}</h2>
-
-    <div class="form-group">
-      <label class="form-label">Nombre</label>
-      <input [(ngModel)]="form.nombre" class="form-input" placeholder="Ej: Breaking Bad" />
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Descripción</label>
-      <textarea [(ngModel)]="form.descripcion" class="form-input" rows="3" placeholder="Descripción breve..."></textarea>
-    </div>
-
-    <div class="form-grid-2">
-      <div class="form-group">
-        <label class="form-label">Año</label>
-        <input type="number" [(ngModel)]="form.anio" class="form-input" placeholder="2024" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Episodios</label>
-        <input type="number" [(ngModel)]="form.episodios" class="form-input" placeholder="1" />
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">ID Categoría</label>
-      <input [(ngModel)]="form.id_categoria" class="form-input" placeholder="UUID de la categoría" />
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">ID Género</label>
-      <input [(ngModel)]="form.id_genero" class="form-input" placeholder="UUID del género" />
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn btn-primary" (click)="guardar()">{{ editando ? 'Guardar' : 'Crear' }}</button>
-      <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
-    </div>
   </div>
 </div>

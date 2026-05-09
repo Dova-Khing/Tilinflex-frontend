@@ -26,6 +26,13 @@ export const routes: Routes = [
     ],
   },
 
+  // SELECCIÓN DE PERFIL
+  {
+    path: 'perfiles',
+    loadComponent: () =>
+      import('./features/perfiles/perfiles.component').then((m) => m.PerfilesComponent),
+  },
+
   // AUTH
   {
     path: 'login',
@@ -56,11 +63,11 @@ export const routes: Routes = [
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
-        path: 'obras',
+        path: 'catalogo',
         loadComponent: () =>
           import('./features/obras/obras.component').then((m) => m.ObrasComponent),
       },
-      {
+{
         path: 'usuarios',
         loadComponent: () =>
           import('./features/usuarios/usuarios.component').then((m) => m.UsuariosComponent),

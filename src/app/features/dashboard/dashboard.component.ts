@@ -2,7 +2,6 @@ import { Component, AfterViewInit, ElementRef, ViewChild, OnInit, PLATFORM_ID, I
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
-import { forkJoin } from 'rxjs';
 import { ObrasService } from '../../core/services/obras.service';
 import { UsuariosService } from '../../core/services/usuarios.service';
 import { CategoriasService } from '../../core/services/categorias.service';
@@ -23,16 +22,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   today = new Date();
 
-  stats = {
-    obras: 0,
-    usuarios: 0,
-    categorias: 0,
-    generos: 0,
-    suscripciones: 0,
-    perfiles: 0,
-  };
-
-  obrasRecientes: { nombre: string; categoria: string; genero: string; anio: number }[] = [];
+  stats = { obras: 0, usuarios: 0, categorias: 0, generos: 0 };
+  usuariosRecientes: { nombre: string; email: string; rol: string }[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -45,33 +36,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    forkJoin({
-      obras: this.obrasService.getAll(),
-      usuarios: this.usuariosService.getAll(),
-      categorias: this.categoriasService.getAll(),
-      generos: this.generosService.getAll(),
-    }).subscribe({
-      next: ({ obras, usuarios, categorias, generos }) => {
-        const catMap: Record<string, string> = Object.fromEntries(
-          categorias.map((c: any) => [c.id_categoria, c.nombre_categoria])
-        );
-        const genMap: Record<string, string> = Object.fromEntries(
-          generos.map((g: any) => [g.id_genero, g.nombre_genero])
-        );
+    this.obrasService.getAll().subscribe({
+      next: (d: any) => this.stats.obras = (d?.data ?? d)?.length ?? 0,
+    });
 
-        this.stats.obras = obras.length;
-        this.stats.usuarios = usuarios.length;
-        this.stats.categorias = categorias.length;
-        this.stats.generos = generos.length;
-
-        this.obrasRecientes = obras.slice(0, 5).map((o: any) => ({
-          nombre: o.nombre,
-          categoria: catMap[o.id_categoria] ?? '—',
-          genero: genMap[o.id_genero] ?? '—',
-          anio: o.anio,
+    this.usuariosService.getAll().subscribe({
+      next: (d: any) => {
+        const list = d?.data ?? d ?? [];
+        this.stats.usuarios = list.length;
+        this.usuariosRecientes = list.slice(0, 5).map((u: any) => ({
+          nombre: `${u.nombre ?? ''} ${u.apellido ?? ''}`.trim() || u.username || '—',
+          email:  u.email ?? '—',
+          rol:    u.admin ? 'Admin' : 'Usuario',
         }));
       },
-      error: (err) => console.error('Dashboard: error cargando datos', err),
+    });
+
+    this.categoriasService.getAll().subscribe({
+      next: (d: any) => this.stats.categorias = (d?.data ?? d)?.length ?? 0,
+    });
+
+    this.generosService.getAll().subscribe({
+      next: (d: any) => this.stats.generos = (d?.data ?? d)?.length ?? 0,
     });
   }
 

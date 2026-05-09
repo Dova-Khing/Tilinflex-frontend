@@ -11,10 +11,10 @@
 
   <!-- STAT CARDS -->
   <div class="stats-grid">
-    <div class="stat-card blue" routerLink="/admin/obras">
+    <div class="stat-card blue" routerLink="/admin/catalogo">
       <div class="stat-icon">🎬</div>
       <div class="stat-info">
-        <span class="stat-label">Obras</span>
+        <span class="stat-label">Obras en catálogo</span>
         <span class="stat-value">{{ stats.obras }}</span>
       </div>
     </div>
@@ -37,20 +37,6 @@
       <div class="stat-info">
         <span class="stat-label">Géneros</span>
         <span class="stat-value">{{ stats.generos }}</span>
-      </div>
-    </div>
-    <div class="stat-card amber" routerLink="/suscripciones">
-      <div class="stat-icon">💳</div>
-      <div class="stat-info">
-        <span class="stat-label">Suscripciones</span>
-        <span class="stat-value">{{ stats.suscripciones }}</span>
-      </div>
-    </div>
-    <div class="stat-card rose" routerLink="/admin/perfil">
-      <div class="stat-icon">👤</div>
-      <div class="stat-info">
-        <span class="stat-label">Perfiles</span>
-        <span class="stat-value">{{ stats.perfiles }}</span>
       </div>
     </div>
   </div>
@@ -103,32 +89,30 @@
       </div>
     </div> -->
 
-    <!-- OBRAS RECIENTES -->
+    <!-- USUARIOS RECIENTES -->
     <div class="card full-col">
       <div class="card-head">
-        <h2 class="card-title">Obras Recientes</h2>
-        <a routerLink="/admin/obras" class="ver-todo">Ver todas →</a>
+        <h2 class="card-title">Usuarios Recientes</h2>
+        <a routerLink="/admin/usuarios" class="ver-todo">Ver todos →</a>
       </div>
       <table class="data-table">
         <thead>
           <tr>
             <th>#</th>
             <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Género</th>
-            <th>Año</th>
+            <th>Email</th>
+            <th>Rol</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let obra of obrasRecientes; let i = index">
+          <tr *ngFor="let u of usuariosRecientes; let i = index">
             <td class="muted">{{ i + 1 }}</td>
-            <td class="bold">{{ obra.nombre }}</td>
-            <td>{{ obra.categoria }}</td>
-            <td>{{ obra.genero }}</td>
-            <td>{{ obra.anio }}</td>
+            <td class="bold">{{ u.nombre }}</td>
+            <td class="muted">{{ u.email }}</td>
+            <td>{{ u.rol }}</td>
           </tr>
-          <tr *ngIf="obrasRecientes.length === 0">
-            <td colspan="5" class="empty">No hay obras registradas aún</td>
+          <tr *ngIf="usuariosRecientes.length === 0">
+            <td colspan="4" class="empty">No hay usuarios registrados aún</td>
           </tr>
         </tbody>
       </table>
