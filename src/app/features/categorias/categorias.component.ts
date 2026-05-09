@@ -1,6 +1,6 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { CategoriasService } from '../../../core/services/categorias.service';
+import { CategoriasService } from '../../core/services/categorias.service';
 
 @Component({
   selector: 'app-categorias',
@@ -23,7 +23,7 @@ export class CategoriasComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) { this.cargando = false; return; }
     this.service.getAll().subscribe({
       next: (data) => { this.categorias = data; this.cargando = false; },
-      error: () => { this.error = 'Error al cargar categorías'; this.cargando = false; },
+      error: () => { this.error = 'Error al cargar categorÃ­as'; this.cargando = false; },
     });
   }
 }
