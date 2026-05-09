@@ -13,22 +13,11 @@
 
   <div class="navbar-search">
     <div class="search-wrap">
-      <input
-        type="text"
-        [(ngModel)]="searchQuery"
-        (input)="onSearchInput()"
-        (keyup.enter)="goSearch()"
-        (blur)="hideSuggestions()"
-        placeholder="Buscar anime..."
-        class="search-input"
-      />
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput()" (keyup.enter)="goSearch()"
+        (blur)="hideSuggestions()" placeholder="Buscar anime..." class="search-input" />
       <button (click)="goSearch()" class="search-btn">⌕</button>
       <div *ngIf="showSuggestions && suggestions.length" class="suggestions">
-        <div
-          *ngFor="let s of suggestions | slice:0:6"
-          (mousedown)="selectSuggestion(s)"
-          class="suggestion-item"
-        >
+        <div *ngFor="let s of suggestions | slice:0:6" (mousedown)="selectSuggestion(s)" class="suggestion-item">
           <img *ngIf="s.poster" [src]="s.poster" class="suggestion-poster" />
           <span>{{ s.name ?? s.jname }}</span>
         </div>
@@ -42,12 +31,8 @@
 
       <div class="profile-menu" (blur)="cerrarMenu()" tabindex="0">
         <button class="profile-btn" (click)="toggleMenu()">
-          <img
-            *ngIf="perfilActivo"
-            [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)"
-            class="profile-avatar"
-            alt="perfil"
-          />
+          <img *ngIf="perfilActivo" [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)" class="profile-avatar"
+            alt="perfil" />
           <div *ngIf="!perfilActivo" class="profile-avatar-fallback">
             {{ currentUser['email']?.[0]?.toUpperCase() }}
           </div>
@@ -78,7 +63,7 @@
       <a routerLink="/login" class="btn-login">Entrar</a>
     </ng-template>
   </div>
-</nav> 
+</nav>
 
 <main class="public-main">
   <router-outlet />
