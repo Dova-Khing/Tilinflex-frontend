@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+:host { display: block; background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
+
+.loading-screen, .error-screen {
+  display: flex; align-items: center; justify-content: center; min-height: 80vh;
+  color: rgba(255,255,255,.4); font-size: 1rem;
+}
+.spinner {
+  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,.1);
+  border-top-color: #e50914; border-radius: 50%; animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── BANNER ────────────────────────────────────────────
+.banner {
+  position: relative; height: 55vh; min-height: 380px; padding-top: 80px;
+  background-size: cover; background-position: center;
+  display: flex; align-items: flex-end;
+}
+.banner-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,.95) 0%, rgba(0,0,0,.6) 60%, transparent 100%),
+              linear-gradient(to top, #0a0a0f 0%, transparent 40%);
+}
+.banner-content { position: relative; z-index: 2; padding: 2rem 3rem 2.5rem; max-width: 640px; }
+.badge-type { display: inline-block; padding: .2rem .6rem; background: #e50914; border-radius: 3px; font-size: .72rem; font-weight: 700; margin-bottom: .75rem; }
+h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; margin: 0 0 .75rem; }
+.anime-desc { font-size: .9rem; color: rgba(255,255,255,.7); line-height: 1.6; margin-bottom: 1rem; }
+.meta-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.meta-pill { padding: .2rem .6rem; background: rgba(255,255,255,.1); border-radius: 4px; font-size: .75rem; color: rgba(255,255,255,.7); }
+
+// ── MAIN LAYOUT ───────────────────────────────────────
+.main-layout {
+  display: flex; gap: 0; min-height: 600px;
+}
+
+// ── PLAYER ────────────────────────────────────────────
+.player-section { flex: 1; padding: 1.5rem 2rem; }
+
+.player-controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 1rem;
+}
+.type-btns, .server-btns { display: flex; gap: .4rem; }
+.type-btn, .server-btn {
+  padding: .3rem .8rem; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.6); border-radius: 4px; cursor: pointer; font-size: .8rem;
+  transition: all .2s;
+  &:hover { border-color: rgba(255,255,255,.3); color: #fff; }
+  &.active { background: #e50914; border-color: #e50914; color: #fff; font-weight: 600; }
+}
+
+.video-wrap {
+  position: relative; width: 100%; aspect-ratio: 16/9; background: #000;
+  border-radius: 8px; overflow: hidden;
+}
+.video-player { width: 100%; height: 100%; border: none; }
+.video-loading, .video-error, .video-placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.4); font-size: .9rem;
+}
+.video-error { color: #ff6b6b; }
+
+.now-playing {
+  margin-top: .75rem; font-size: .85rem; color: rgba(255,255,255,.5);
+  padding: .5rem .75rem; background: rgba(255,255,255,.04); border-radius: 6px;
+}
+
+// ── LISTA EPISODIOS ───────────────────────────────────
+.episodes-list {
+  width: 300px; flex-shrink: 0; border-left: 1px solid rgba(255,255,255,.06);
+  display: flex; flex-direction: column;
+}
+.ep-list-title {
+  padding: 1.25rem 1rem .75rem; font-size: .95rem; font-weight: 700; margin: 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  span { color: rgba(255,255,255,.4); font-size: .8rem; font-weight: 400; }
+}
+.ep-scroll { flex: 1; overflow-y: auto; max-height: 520px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
+.ep-item {
+  display: flex; align-items: center; gap: .6rem; width: 100%;
+  padding: .65rem 1rem; background: none; border: none; color: rgba(255,255,255,.65);
+  text-align: left; cursor: pointer; font-size: .82rem; border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: background .15s, color .15s;
+  &:hover { background: rgba(255,255,255,.05); color: #fff; }
+  &.active { background: rgba(229,9,20,.15); color: #fff; border-left: 2px solid #e50914; }
+}
+.ep-num { flex-shrink: 0; font-weight: 700; color: rgba(255,255,255,.4); min-width: 28px; font-size: .8rem; }
+.ep-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ep-filler { flex-shrink: 0; font-size: .65rem; padding: .1rem .35rem; background: rgba(255,200,0,.15); color: #ffd700; border-radius: 3px; }
+.ep-empty { padding: 2rem 1rem; color: rgba(255,255,255,.3); font-size: .85rem; text-align: center; }
+
+// ── INFO EXTRA ────────────────────────────────────────
+.extra-info { padding: 2rem 3rem 3rem; border-top: 1px solid rgba(255,255,255,.06); }
+.info-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.info-item {
+  span { display: block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: rgba(255,255,255,.35); margin-bottom: .25rem; }
+  p { margin: 0; font-size: .88rem; color: rgba(255,255,255,.75); }
+}

@@ -1,7 +1,7 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HianimeService } from '../../../core/services/hianime.service';
+import { AnimeService } from '../../../core/services/anime.service';
 
 @Component({
   selector: 'app-home',
@@ -22,13 +22,13 @@ export class HomeComponent implements OnInit {
   error = '';
 
   constructor(
-    private hianime: HianimeService,
+    private anime: AnimeService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit() {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.hianime.home().subscribe({
+    this.anime.home().subscribe({
       next: (res: any) => {
         const d = res?.data ?? res;
         this.spotlight      = d?.spotlightAnimes ?? [];
@@ -54,6 +54,6 @@ export class HomeComponent implements OnInit {
     const parts = [];
     if (ep.sub) parts.push(`SUB ${ep.sub}`);
     if (ep.dub) parts.push(`DUB ${ep.dub}`);
-    return parts.join(' · ');
+    return parts.join(' Â· ');
   }
 }

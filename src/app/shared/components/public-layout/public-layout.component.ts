@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
-import { HianimeService } from '../../../core/services/hianime.service';
+import { AnimeService } from '../../../core/services/anime.service';
 
 @Component({
   selector: 'app-public-layout',
@@ -21,7 +21,7 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
   private search$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
-  constructor(private hianime: HianimeService, private router: Router) {}
+  constructor(private anime: AnimeService, private router: Router) {}
 
   ngOnInit() {
     this.search$.pipe(
@@ -30,7 +30,7 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
     ).subscribe(q => {
       if (q.length >= 2) {
-        this.hianime.suggest(q).subscribe({ next: (r: any) => { this.suggestions = r?.data?.suggestions ?? []; this.showSuggestions = true; } });
+        this.anime.suggest(q).subscribe({ next: (r: any) => { this.suggestions = r?.data?.suggestions ?? []; this.showSuggestions = true; } });
       } else {
         this.suggestions = [];
         this.showSuggestions = false;

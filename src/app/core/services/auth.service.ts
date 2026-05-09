@@ -40,4 +40,19 @@ export class AuthService {
       localStorage.setItem('token', token);
     }
   }
+
+  getPayload(): Record<string, any> | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(atob(base64));
+    } catch {
+      return null;
+    }
+  }
+
+  isAdmin(): boolean {
+    return this.getPayload()?.['rol'] === 'admin';
+  }
 }

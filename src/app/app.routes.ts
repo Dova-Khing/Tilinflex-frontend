@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   // PUBLICO - streaming anime
@@ -41,6 +41,7 @@ export const routes: Routes = [
   // ADMIN
   {
     path: 'admin',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./shared/components/layout/layout.component').then((m) => m.LayoutComponent),
     children: [
@@ -76,7 +77,6 @@ export const routes: Routes = [
       },
       {
         path: 'perfil',
-        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/perfil/perfil.component').then((m) => m.PerfilComponent),
       },
