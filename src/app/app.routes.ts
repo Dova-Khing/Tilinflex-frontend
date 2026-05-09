@@ -1,7 +1,32 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
+  // PUBLICO - streaming anime
+  {
+    path: '',
+    loadComponent: () =>
+      import('./shared/components/public-layout/public-layout.component').then((m) => m.PublicLayoutComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/anime/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'browse',
+        loadComponent: () =>
+          import('./features/anime/browse/browse.component').then((m) => m.BrowseComponent),
+      },
+      {
+        path: 'anime/:id',
+        loadComponent: () =>
+          import('./features/anime/detail/detail.component').then((m) => m.DetailComponent),
+      },
+    ],
+  },
+
+  // AUTH
   {
     path: 'login',
     loadComponent: () =>
@@ -12,14 +37,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/registro/registro.component').then((m) => m.RegistroComponent),
   },
+
+  // ADMIN
   {
-    path: '',
+    path: 'admin',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./shared/components/layout/layout.component').then((m) => m.LayoutComponent),
     children: [
-       {
+      {
         path: '',
-        redirectTo: 'dashboard',   // ← ahora redirige al dashboard
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
       {
@@ -49,7 +77,6 @@ export const routes: Routes = [
       },
       {
         path: 'perfil',
-        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/perfil/perfil.component').then((m) => m.PerfilComponent),
       },
@@ -60,5 +87,6 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' },
+
+  { path: '**', redirectTo: '/' },
 ];

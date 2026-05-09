@@ -1,5 +1,5 @@
 /**
- * @module auth.guard.ts
+ * @module admin.guard.ts
  * @description
  * Este módulo es responsable de la protección de rutas privadas.
  * Si el usuario no está autenticado, se redirige a la página de inicio de sesión.
@@ -8,18 +8,21 @@
  * @returns {boolean} - True si el usuario está autenticado, false en caso contrario.
  */
 
-
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const authGuard: CanActivateFn = () => {
+export const adminGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  if (auth.isLoggedIn()) {
+  if (auth.isLoggedIn() && auth.isAdmin()) {
     return true;
   }
 
-  return router.createUrlTree(['/login']);
+  if (!auth.isLoggedIn()) {
+    return router.createUrlTree(['/login']);
+  }
+
+  return router.createUrlTree(['/']);
 };

@@ -1,0 +1,50 @@
+<nav class="navbar" [class.scrolled]="scrolled">
+  <a routerLink="/home" class="navbar-brand">
+    <span class="brand-icon">▶</span>
+    <span class="brand-name">Tilinflex</span>
+  </a>
+
+  <div class="navbar-links">
+    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+    <a routerLink="/browse" routerLinkActive="active">Explorar</a>
+    <a [routerLink]="['/browse']" [queryParams]="{tipo:'Movie'}">Películas</a>
+    <a [routerLink]="['/browse']" [queryParams]="{tipo:'TV'}">Series</a>
+  </div>
+
+  <div class="navbar-search">
+    <div class="search-wrap">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput()"
+        (keyup.enter)="goSearch()"
+        (blur)="hideSuggestions()"
+        placeholder="Buscar anime..."
+        class="search-input"
+      />
+      <button (click)="goSearch()" class="search-btn">⌕</button>
+      <div *ngIf="showSuggestions && suggestions.length" class="suggestions">
+        <div
+          *ngFor="let s of suggestions | slice:0:6"
+          (mousedown)="selectSuggestion(s)"
+          class="suggestion-item"
+        >
+          <img *ngIf="s.poster" [src]="s.poster" class="suggestion-poster" />
+          <span>{{ s.name ?? s.jname }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar-actions">
+    <a routerLink="/login" class="btn-login">Entrar</a>
+  </div>
+</nav>
+
+<main class="public-main">
+  <router-outlet />
+</main>
+
+<footer class="public-footer">
+  <span>© 2026 Tilinflex — Solo uso educativo</span>
+</footer>

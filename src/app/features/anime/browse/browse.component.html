@@ -1,0 +1,92 @@
+<div class="browse-page">
+
+  <!-- SIDEBAR DE FILTROS -->
+  <aside class="filters">
+    <h3 class="filters-title">Filtros</h3>
+
+    <div class="filter-group">
+      <label>Buscar</label>
+      <input type="text" [(ngModel)]="filtros.keyword" placeholder="Título..." (keyup.enter)="aplicar()" />
+    </div>
+
+    <div class="filter-group">
+      <label>Tipo</label>
+      <select [(ngModel)]="filtros.tipo">
+        <option value="">Todos</option>
+        <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Estado</label>
+      <select [(ngModel)]="filtros.estado">
+        <option value="">Todos</option>
+        <option value="airing">En emisión</option>
+        <option value="complete">Finalizado</option>
+        <option value="upcoming">Próximamente</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Género</label>
+      <select [(ngModel)]="filtros.genres">
+        <option value="">Todos</option>
+        <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Ordenar por</label>
+      <select [(ngModel)]="filtros.sort">
+        <option *ngFor="let s of sorts" [value]="s.value">{{ s.label }}</option>
+      </select>
+    </div>
+
+    <button (click)="aplicar()" class="btn-apply">Aplicar</button>
+    <button (click)="limpiar()" class="btn-clear">Limpiar</button>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <div class="browse-content">
+
+    <!-- TAGS DE FILTROS ACTIVOS -->
+    <div class="active-filters" *ngIf="filtros.keyword || filtros.tipo || filtros.estado || filtros.genres">
+      <span *ngIf="filtros.keyword" class="filter-tag">🔍 {{ filtros.keyword }}</span>
+      <span *ngIf="filtros.tipo"    class="filter-tag">{{ filtros.tipo }}</span>
+      <span *ngIf="filtros.estado"  class="filter-tag">{{ filtros.estado }}</span>
+      <span *ngIf="filtros.genres"  class="filter-tag">{{ filtros.genres }}</span>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="cargando" class="loading-grid">
+      <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" class="skeleton-card"></div>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="error && !cargando" class="error-msg">{{ error }}</div>
+
+    <!-- GRID -->
+    <div *ngIf="!cargando && !error" class="anime-grid">
+      <a *ngFor="let a of animes" [routerLink]="['/anime', a.id]" class="anime-card">
+        <div class="card-img-wrap">
+          <img [src]="a.poster" [alt]="a.name" loading="lazy" />
+          <div class="card-type" *ngIf="a.type">{{ a.type }}</div>
+        </div>
+        <div class="card-body">
+          <p class="card-title">{{ a.name }}</p>
+          <span class="card-eps" *ngIf="episodeLabel(a)">{{ episodeLabel(a) }}</span>
+        </div>
+      </a>
+      <div *ngIf="animes.length === 0" class="empty">No se encontraron resultados.</div>
+    </div>
+
+    <!-- PAGINACION -->
+    <div class="pagination" *ngIf="!cargando && totalPages > 1">
+      <button (click)="cambiarPagina(filtros.page - 1)" [disabled]="filtros.page === 1" class="page-btn">‹</button>
+      <button *ngFor="let p of pages" (click)="cambiarPagina(p)"
+        class="page-btn" [class.active]="p === filtros.page">{{ p }}</button>
+      <button (click)="cambiarPagina(filtros.page + 1)" [disabled]="filtros.page === totalPages" class="page-btn">›</button>
+    </div>
+
+  </div>
+</div>
