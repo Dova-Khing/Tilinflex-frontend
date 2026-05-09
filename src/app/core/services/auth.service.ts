@@ -1,6 +1,7 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -8,7 +9,12 @@ export class AuthService {
   private readonly api = `${environment.apiUrl}/auth`;
   private readonly platformId = inject(PLATFORM_ID);
 
-  constructor(private http: HttpClient) {}
+  private userSubject = new BehaviorSubject<Record<string, any> | null>(null);
+  user$ = this.userSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.userSubject.next(this.getPayload());
+  }
 
   login(email: string, contrasena: string) {
     return this.http.post(`${this.api}/login`, { email, contrasena });
@@ -18,9 +24,17 @@ export class AuthService {
     return this.http.post(`${environment.apiUrl}/usuarios/`, datos);
   }
 
+  saveToken(token: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', token);
+      this.userSubject.next(this.getPayload());
+    }
+  }
+
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
+      this.userSubject.next(null);
     }
   }
 
@@ -35,12 +49,6 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  saveToken(token: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('token', token);
-    }
-  }
-
   getPayload(): Record<string, any> | null {
     const token = this.getToken();
     if (!token) return null;
@@ -53,6 +61,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.getPayload()?.['rol'] === 'admin';
+    return this.getPayload()?.['admin'] === true;
   }
 }
+

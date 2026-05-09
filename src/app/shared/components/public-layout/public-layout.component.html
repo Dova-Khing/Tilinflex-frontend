@@ -37,9 +37,19 @@
   </div>
 
   <div class="navbar-actions">
-    <a routerLink="/login" class="btn-login">Entrar</a>
+    <ng-container *ngIf="currentUser; else loginBtn">
+     <a *ngIf="currentUser['admin']" routerLink="/admin/dashboard" class="btn-admin">Panel Admin</a>
+      <div class="user-menu">
+        <span class="navbar-username">{{ currentUser['email'] }}</span>
+        <button class="btn-logout" (click)="logout()">Salir</button>
+      </div>
+    </ng-container>
+
+    <ng-template #loginBtn>
+      <a routerLink="/login" class="btn-login">Entrar</a>
+    </ng-template>
   </div>
-</nav>
+</nav> 
 
 <main class="public-main">
   <router-outlet />

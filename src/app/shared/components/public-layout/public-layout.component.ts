@@ -4,6 +4,8 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { AnimeService } from '../../../core/services/anime.service';
+import { AuthService } from '../../../core/services/auth.service'; 
+
 
 @Component({
   selector: 'app-public-layout',
@@ -17,26 +19,37 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
   suggestions: any[] = [];
   showSuggestions = false;
   scrolled = false;
+  currentUser: Record<string, any> | null = null;
 
   private search$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
-  constructor(private anime: AnimeService, private router: Router) {}
+  constructor(private anime: AnimeService, private router: Router, public auth: AuthService) {}
 
   ngOnInit() {
-    this.search$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$),
-    ).subscribe(q => {
-      if (q.length >= 2) {
-        this.anime.suggest(q).subscribe({ next: (r: any) => { this.suggestions = r?.data?.suggestions ?? []; this.showSuggestions = true; } });
-      } else {
-        this.suggestions = [];
-        this.showSuggestions = false;
-      }
-    });
-  }
+  this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
+    console.log('user$ emitió:', user);
+    this.currentUser = user;
+  });
+
+  this.search$.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    takeUntil(this.destroy$),
+  ).subscribe(q => {
+    if (q.length >= 2) {
+      this.anime.suggest(q).subscribe({
+        next: (r: any) => {
+          this.suggestions = r?.data?.suggestions ?? [];
+          this.showSuggestions = true;
+        }
+      });
+    } else {
+      this.suggestions = [];
+      this.showSuggestions = false;
+    }
+  });
+}
 
   ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
 
@@ -55,6 +68,11 @@ export class PublicLayoutComponent implements OnInit, OnDestroy {
     this.searchQuery = s.name ?? s.jname ?? '';
     this.showSuggestions = false;
     this.router.navigate(['/anime', s.id]);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
   hideSuggestions() { setTimeout(() => this.showSuggestions = false, 150); }
