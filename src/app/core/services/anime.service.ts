@@ -56,36 +56,7 @@ export class AnimeService {
   }
 
   info(id: string): Observable<any> {
-    return this.http.get(`${this.api}/info`, { params: { id } }).pipe(
-      map((r: any) => {
-        const d = r?.data ?? r;
-        const anime = d?.anime ?? d;
-        return {
-          data: {
-            anime: {
-              info: {
-                name:        anime.title ?? anime.name ?? d?.info?.name ?? '',
-                poster:      anime.image ?? anime.poster ?? d?.info?.poster ?? '',
-                description: anime.description ?? d?.info?.description ?? '',
-                stats: {
-                  type:    anime.type    ?? d?.info?.stats?.type ?? '',
-                  rating:  anime.rating  ?? d?.info?.stats?.rating ?? '',
-                  quality: anime.quality ?? d?.info?.stats?.quality ?? '',
-                },
-              },
-              moreInfo: d?.moreInfo ?? {
-                genres:    anime.genres    ?? [],
-                studios:   anime.studios   ?? '',
-                producers: anime.producers ?? [],
-                duration:  anime.duration  ?? '',
-                status:    anime.status    ?? '',
-                premiered: anime.premiered ?? '',
-              },
-            },
-          },
-        };
-      })
-    );
+    return this.http.get(`${this.api}/info`, { params: { id } });
   }
 
   episodes(animeId: string): Observable<any> {

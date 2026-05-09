@@ -31,7 +31,7 @@
       <label>Género</label>
       <select [(ngModel)]="filtros.genres">
         <option value="">Todos</option>
-        <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+        <option *ngFor="let g of genres" [value]="g.id">{{ g.name }}</option>
       </select>
     </div>
 
@@ -54,7 +54,7 @@
       <span *ngIf="filtros.keyword" class="filter-tag">🔍 {{ filtros.keyword }}</span>
       <span *ngIf="filtros.tipo"    class="filter-tag">{{ filtros.tipo }}</span>
       <span *ngIf="filtros.estado"  class="filter-tag">{{ filtros.estado }}</span>
-      <span *ngIf="filtros.genres"  class="filter-tag">{{ filtros.genres }}</span>
+      <span *ngIf="filtros.genres"  class="filter-tag">{{ genreNombre }}</span>
     </div>
 
     <!-- LOADING -->

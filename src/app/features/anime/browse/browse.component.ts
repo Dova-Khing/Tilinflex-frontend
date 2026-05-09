@@ -23,7 +23,7 @@ const SORTS   = [
 })
 export class BrowseComponent implements OnInit, OnDestroy {
   animes: any[]    = [];
-  genres: string[] = [];
+  genres: { name: string; id: number }[] = [];
   totalPages = 1;
   cargando   = true;
   error      = '';
@@ -101,6 +101,11 @@ export class BrowseComponent implements OnInit, OnDestroy {
   cambiarPagina(p: number) {
     if (p < 1 || p > this.totalPages) return;
     this.router.navigate([], { queryParams: { ...this.route.snapshot.queryParams, page: p } });
+  }
+
+  get genreNombre(): string {
+    const g = this.genres.find(g => String(g.id) === String(this.filtros.genres));
+    return g?.name ?? this.filtros.genres;
   }
 
   get pages(): number[] {
