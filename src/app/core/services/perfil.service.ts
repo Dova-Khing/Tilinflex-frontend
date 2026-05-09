@@ -69,6 +69,8 @@ export class PerfilService {
   }
 
   getAvatarUrl(avatarId: string): string {
+    if (!avatarId) return this.getAvatarUrl('av1');
+    if (avatarId.startsWith('data:') || avatarId.startsWith('http')) return avatarId;
     return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${avatarId}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
   }
 

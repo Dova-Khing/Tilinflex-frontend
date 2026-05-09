@@ -1,29 +1,29 @@
-$color-bg:           #0f172a;   
-$color-surface:      #1e293b;   
-$color-input-bg:     #273549;   
-$color-text:         #f1f5f9;   
-$color-muted:        #94a3b8;  
-$color-subtle:       #64748b;   
-$color-accent:       #3b82f6;   
-$color-accent-hover: #2563eb;   
-$color-accent-light: #60a5fa;   
-$color-error-bg:     rgba(127, 29, 29, 0.4);
+$color-bg: #0f172a;
+$color-surface: #1e293b;
+$color-input-bg: #273549;
+$color-text: #f1f5f9;
+$color-muted: #94a3b8;
+$color-subtle: #64748b;
+$color-accent: #4d80d1;
+$color-accent-hover: #2563eb;
+$color-accent-light: #60a5fa;
+$color-error-bg: rgba(127, 29, 29, 0.4);
 $color-error-border: #ef4444;
-$color-error-text:   #fca5a5;
- 
-$radius-sm:  0.5rem;   
-$radius-md:  0.75rem;  
-$radius-lg:  0.875rem; 
-$radius-xl:  1rem;    
- 
+$color-error-text: #fca5a5;
+
+$radius-sm: 0.5rem;
+$radius-md: 0.75rem;
+$radius-lg: 0.875rem;
+$radius-xl: 1rem;
+
 $transition-base: 150ms ease;
- 
+
 // ─── Host / Página ───────────────────────────────────────────────────────────
- 
+
 :host {
   display: block;
 }
- 
+
 .login-page {
   min-height: 100vh;
   background-color: $color-bg;
@@ -32,9 +32,9 @@ $transition-base: 150ms ease;
   justify-content: center;
   padding: 0 1rem;
 }
- 
+
 // ─── Card ─────────────────────────────────────────────────────────────────────
- 
+
 .login-card {
   width: 100%;
   max-width: 28rem; // max-w-md
@@ -45,9 +45,9 @@ $transition-base: 150ms ease;
     0 10px 15px -3px rgba(0, 0, 0, 0.4),
     0 4px 6px -4px rgba(0, 0, 0, 0.4);
 }
- 
+
 // ─── Encabezado ───────────────────────────────────────────────────────────────
- 
+
 .login-title {
   font-size: 1.875rem; // text-3xl
   font-weight: 700;
@@ -55,15 +55,15 @@ $transition-base: 150ms ease;
   margin: 0 0 0.5rem;
   line-height: 1.2;
 }
- 
+
 .login-subtitle {
   color: $color-muted;
   font-size: 0.875rem; // text-sm
   margin: 0 0 1.5rem;
 }
- 
+
 // ─── Error ────────────────────────────────────────────────────────────────────
- 
+
 .login-error {
   background-color: $color-error-bg;
   border: 1px solid $color-error-border;
@@ -73,33 +73,33 @@ $transition-base: 150ms ease;
   border-radius: $radius-sm;
   margin-bottom: 1rem;
 }
- 
+
 // ─── Formulario ───────────────────────────────────────────────────────────────
- 
+
 .login-form {
   display: flex;
   flex-direction: column;
 }
- 
+
 // ─── Campo ────────────────────────────────────────────────────────────────────
- 
+
 .field {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
- 
+
   &--last {
     margin-bottom: 1.5rem;
   }
 }
- 
+
 .field__label {
   display: block;
   color: $color-muted;
   font-size: 0.875rem;
   margin-bottom: 0.25rem;
 }
- 
+
 .field__input {
   width: 100%;
   background-color: $color-input-bg;
@@ -113,19 +113,19 @@ $transition-base: 150ms ease;
     border-color $transition-base,
     box-shadow $transition-base;
   box-sizing: border-box;
- 
+
   &::placeholder {
     color: $color-subtle;
   }
- 
+
   &:focus {
     border-color: $color-accent;
     box-shadow: 0 0 0 2px rgba($color-accent, 0.35);
   }
 }
- 
+
 // ─── Botón ────────────────────────────────────────────────────────────────────
- 
+
 .login-btn {
   width: 100%;
   background-color: $color-accent;
@@ -137,32 +137,31 @@ $transition-base: 150ms ease;
   border-radius: $radius-md;
   cursor: pointer;
   transition: background-color $transition-base;
- 
+
   &:hover:not(:disabled) {
     background-color: $color-accent-hover;
   }
- 
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 }
- 
+
 // ─── Footer ───────────────────────────────────────────────────────────────────
- 
+
 .login-footer {
   color: $color-subtle;
   font-size: 0.875rem;
   margin-top: 1.5rem;
   text-align: center;
- 
+
   a {
     color: $color-accent-light;
     text-decoration: none;
- 
+
     &:hover {
       text-decoration: underline;
     }
   }
 }
- 

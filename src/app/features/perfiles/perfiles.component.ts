@@ -63,6 +63,15 @@ export class PerfilesComponent implements OnInit {
     this.mostrarModal = true;
   }
 
+  onFotoSeleccionada(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { this.error = 'La imagen no puede superar 2 MB'; return; }
+    const reader = new FileReader();
+    reader.onload = () => { this.form.avatar_url = reader.result as string; };
+    reader.readAsDataURL(file);
+  }
+
   guardar() {
     if (!this.form.nombre_usuario.trim()) { this.error = 'El nombre es obligatorio'; return; }
     if (this.editando) {
