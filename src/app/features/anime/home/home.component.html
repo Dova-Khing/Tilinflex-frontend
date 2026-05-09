@@ -95,9 +95,9 @@
   <div class="genres-grid">
     <a *ngFor="let g of genres"
       [routerLink]="['/browse']"
-      [queryParams]="{genres: g}"
+      [queryParams]="{genres: g.id}"
       class="genre-pill">
-      {{ g }}
+      {{ g.name }}
     </a>
   </div>
 </section>
