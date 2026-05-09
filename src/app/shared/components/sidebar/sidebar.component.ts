@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   menu = [
-    { label: 'Obras', ruta: '/obras' },
-    { label: 'Usuarios', ruta: '/usuarios' },
-    { label: 'Categorías', ruta: '/categorias' },
-    { label: 'Géneros', ruta: '/generos' },
-    { label: 'Suscripciones', ruta: '/suscripciones' },
+    { label: 'Obras', ruta: '/admin/obras' },
+    { label: 'Usuarios', ruta: '/admin/usuarios' },
+    { label: 'Categorías', ruta: '/admin/categorias' },
+    { label: 'Géneros', ruta: '/admin/generos' },
+    { label: 'Suscripciones', ruta: '/admin/suscripciones' },
   ];
 }

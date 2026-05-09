@@ -52,8 +52,74 @@
 }
 
 .navbar-actions {
-  .btn-login { padding: .45rem 1.2rem; background: #e50914; color: #fff; border-radius: 4px; text-decoration: none; font-size: .85rem; font-weight: 600; transition: background .2s;
-    &:hover { background: #b20710; } }
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-username {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,.7);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-admin {
+  background: transparent;
+  border: 1px solid #e50914;
+  color: #e50914;
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: #e50914;
+    color: #fff;
+  }
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.3);
+  color: rgba(255,255,255,.7);
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #fff;
+    color: #fff;
+  }
+}
+
+.btn-login {
+  padding: .45rem 1.2rem;
+  background: #e50914;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: background .2s;
+  white-space: nowrap;
+
+  &:hover { background: #b20710; }
 }
 
 .public-main { padding-top: 0; min-height: calc(100vh - 60px); }
