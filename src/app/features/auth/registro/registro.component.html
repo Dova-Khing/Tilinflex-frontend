@@ -1,61 +1,57 @@
-<div class="min-h-screen bg-black flex items-center justify-center px-4">
-  <div class="w-full max-w-md bg-zinc-900 rounded-xl p-8 shadow-lg">
+<div class="registro-page">
+  <div class="registro-card">
 
-    <h1 class="text-3xl font-bold text-white mb-2">Crear cuenta</h1>
-    <p class="text-zinc-400 mb-6 text-sm">Únete a Tilinflex</p>
+    <h1 class="registro-title">Crear cuenta</h1>
+    <p class="registro-subtitle">Únete a Tilinflex</p>
 
-    <div *ngIf="error" class="bg-red-900/40 border border-red-600 text-red-400 text-sm px-4 py-3 rounded mb-4">
+    <div *ngIf="error" class="registro-error">
       {{ error }}
     </div>
 
-    <form (ngSubmit)="registro()" #form="ngForm" class="space-y-4">
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-zinc-400 text-sm mb-1">Nombre</label>
-          <input type="text" [(ngModel)]="nombre" name="nombre" required
-            class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-        </div>
-        <div>
-          <label class="block text-zinc-400 text-sm mb-1">Apellido</label>
-          <input type="text" [(ngModel)]="apellido" name="apellido" required
-            class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-        </div>
-      </div>
+    <form class="registro-form" (ngSubmit)="registro()" #form="ngForm">
 
-      <div>
-        <label class="block text-zinc-400 text-sm mb-1">Email</label>
-        <input type="email" [(ngModel)]="email" name="email" required
-          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-      </div>
-
-      <div>
-        <label class="block text-zinc-400 text-sm mb-1">Contraseña</label>
-        <input type="password" [(ngModel)]="contrasena" name="contrasena" required
-          class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-zinc-400 text-sm mb-1">Edad</label>
-          <input type="number" [(ngModel)]="edad" name="edad" required
-            class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
+      <div class="field-grid">
+        <div class="field">
+          <label class="field__label">Nombre</label>
+          <input class="field__input" type="text" [(ngModel)]="nombre" name="nombre" required />
         </div>
-        <div>
-          <label class="block text-zinc-400 text-sm mb-1">País</label>
-          <input type="text" [(ngModel)]="pais" name="pais" required
-            class="w-full bg-zinc-800 text-white rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-red-600" />
+        <div class="field">
+          <label class="field__label">Apellido</label>
+          <input class="field__input" type="text" [(ngModel)]="apellido" name="apellido" required />
         </div>
       </div>
 
-      <button type="submit" [disabled]="cargando"
-        class="w-full bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition">
+      <div class="field">
+        <label class="field__label">Email</label>
+        <input class="field__input" type="email" [(ngModel)]="email" name="email" required />
+      </div>
+
+      <div class="field">
+        <label class="field__label">Contraseña</label>
+        <input class="field__input" type="password" [(ngModel)]="contrasena" name="contrasena" required />
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="field__label">Edad</label>
+          <input class="field__input" type="number" [(ngModel)]="edad" name="edad" required />
+        </div>
+        <div class="field">
+          <label class="field__label">País</label>
+          <input class="field__input" type="text" [(ngModel)]="pais" name="pais" required />
+        </div>
+      </div>
+
+      <button class="registro-btn" type="submit" [disabled]="cargando">
         {{ cargando ? 'Creando cuenta...' : 'Crear cuenta' }}
       </button>
+
     </form>
 
-    <p class="text-zinc-500 text-sm mt-6 text-center">
+    <p class="registro-footer">
       ¿Ya tienes cuenta?
-      <a routerLink="/login" class="text-red-500 hover:underline">Inicia sesión</a>
+      <a routerLink="/login">Inicia sesión</a>
     </p>
+
   </div>
 </div>
