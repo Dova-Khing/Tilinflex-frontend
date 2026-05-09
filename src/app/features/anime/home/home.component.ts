@@ -15,7 +15,8 @@ export class HomeComponent implements OnInit {
   trending: any[] = [];
   latestEpisodes: any[] = [];
   topUpcoming: any[] = [];
-  genres: string[] = [];
+  genres: { name: string; id: number }[] = [];
+
 
   heroIndex = 0;
   cargando = true;
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
         this.trending       = d?.trendingAnimes ?? [];
         this.latestEpisodes = d?.latestEpisodeAnimes ?? [];
         this.topUpcoming    = d?.topUpcomingAnimes ?? [];
-        this.genres         = d?.genres ?? [];
+        this.genres = d?.genres ?? [];
         this.cargando = false;
       },
       error: () => { this.error = 'No se pudo conectar al servidor de streaming.'; this.cargando = false; },
