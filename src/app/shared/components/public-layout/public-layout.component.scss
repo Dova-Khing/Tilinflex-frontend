@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+
+:host { display: block; min-height: 100vh; background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
+
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; gap: 2rem;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%, transparent 100%);
+  transition: background .3s, box-shadow .3s;
+
+  &.scrolled {
+    background: rgba(10,10,15,.96);
+    box-shadow: 0 2px 20px rgba(0,0,0,.5);
+  }
+}
+
+.navbar-brand {
+  display: flex; align-items: center; gap: .5rem;
+  text-decoration: none; flex-shrink: 0;
+  .brand-icon { color: #e50914; font-size: 1.4rem; }
+  .brand-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: #fff; letter-spacing: 2px; }
+}
+
+.navbar-links {
+  display: flex; gap: 1.5rem; flex: 1;
+  a { color: rgba(255,255,255,.75); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s;
+    &:hover, &.active { color: #fff; } }
+}
+
+.navbar-search {
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-input {
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+    color: #fff; padding: .5rem 2.5rem .5rem 1rem; border-radius: 20px;
+    font-size: .85rem; width: 220px; outline: none; transition: width .3s, background .2s;
+    &::placeholder { color: rgba(255,255,255,.4); }
+    &:focus { width: 280px; background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); }
+  }
+  .search-btn { position: absolute; right: .6rem; background: none; border: none; color: rgba(255,255,255,.6); font-size: 1.1rem; cursor: pointer; padding: 0; line-height: 1; }
+  .suggestions {
+    position: absolute; top: calc(100% + .5rem); left: 0; right: 0;
+    background: #1a1a2e; border: 1px solid rgba(255,255,255,.1); border-radius: 8px;
+    overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,.6);
+  }
+  .suggestion-item {
+    display: flex; align-items: center; gap: .75rem; padding: .5rem .75rem;
+    cursor: pointer; font-size: .85rem; transition: background .15s;
+    &:hover { background: rgba(229,9,20,.15); }
+  }
+  .suggestion-poster { width: 32px; height: 44px; object-fit: cover; border-radius: 4px; }
+}
+
+.navbar-actions {
+  .btn-login { padding: .45rem 1.2rem; background: #e50914; color: #fff; border-radius: 4px; text-decoration: none; font-size: .85rem; font-weight: 600; transition: background .2s;
+    &:hover { background: #b20710; } }
+}
+
+.public-main { padding-top: 0; min-height: calc(100vh - 60px); }
+
+.public-footer {
+  text-align: center; padding: 2rem; color: rgba(255,255,255,.3);
+  font-size: .75rem; border-top: 1px solid rgba(255,255,255,.06);
+}
