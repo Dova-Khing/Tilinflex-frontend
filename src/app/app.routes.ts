@@ -40,12 +40,12 @@ export const routes: Routes = [
       {
         path: 'categorias',
         loadComponent: () =>
-          import('./features/categorias/categorias.component').then((m) => m.CategoriasComponent),
+          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
       },
       {
         path: 'generos',
         loadComponent: () =>
-          import('./features/generos/generos.component').then((m) => m.GenerosComponent),
+          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
       },
       {
         path: 'perfil',
