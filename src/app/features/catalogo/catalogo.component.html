@@ -1,0 +1,39 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h2 class="page-title">{{ titulo }}</h2>
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- LOADING -->
+  <div *ngIf="cargando" class="loading">Cargando {{ titulo | lowercase }}...</div>
+
+  <!-- TABLA -->
+  <div *ngIf="!cargando" class="card">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items; let i = index">
+            <td class="muted">{{ i + 1 }}</td>
+            <td class="bold">{{ item.nombre }}</td>
+            <td class="muted">{{ item.descripcion ?? '—' }}</td>
+          </tr>
+          <tr *ngIf="items.length === 0">
+            <td colspan="3" class="empty">No hay {{ titulo | lowercase }} registradas aún</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

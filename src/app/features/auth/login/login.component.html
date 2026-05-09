@@ -1,0 +1,53 @@
+<div class="login-page">
+  <div class="login-card">
+ 
+    <h1 class="login-title">Iniciar sesión</h1>
+    <p class="login-subtitle">Accede a tu cuenta de Tilinflex</p>
+ 
+    <div *ngIf="error" class="login-error">
+      {{ error }}
+    </div>
+ 
+    <form class="login-form" (ngSubmit)="login()" #form="ngForm">
+ 
+      <div class="field">
+        <label class="field__label">Email</label>
+        <input
+          class="field__input"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="correo@ejemplo.com"
+        />
+      </div>
+ 
+      <div class="field field--last">
+        <label class="field__label">Contraseña</label>
+        <input
+          class="field__input"
+          type="password"
+          [(ngModel)]="contrasena"
+          name="contrasena"
+          required
+          placeholder="••••••••"
+        />
+      </div>
+ 
+      <button
+        class="login-btn"
+        type="submit"
+        [disabled]="cargando || !email || !contrasena"
+      >
+        {{ cargando ? 'Entrando...' : 'Entrar' }}
+      </button>
+ 
+    </form>
+ 
+    <p class="login-footer">
+      ¿No tienes cuenta?
+      <a routerLink="/registro">Regístrate</a>
+    </p>
+ 
+  </div>
+</div>

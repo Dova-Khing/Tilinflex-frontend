@@ -1,0 +1,74 @@
+<nav class="navbar" [class.scrolled]="scrolled">
+  <a routerLink="/home" class="navbar-brand">
+    <span class="brand-icon">▶</span>
+    <span class="brand-name">Tilinflex</span>
+  </a>
+
+  <div class="navbar-links">
+    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+    <a routerLink="/browse" routerLinkActive="active">Explorar</a>
+    <a [routerLink]="['/browse']" [queryParams]="{tipo:'Movie'}">Películas</a>
+    <a [routerLink]="['/browse']" [queryParams]="{tipo:'TV'}">Series</a>
+  </div>
+
+  <div class="navbar-search">
+    <div class="search-wrap">
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput()" (keyup.enter)="goSearch()"
+        (blur)="hideSuggestions()" placeholder="Buscar anime..." class="search-input" />
+      <button (click)="goSearch()" class="search-btn">⌕</button>
+      <div *ngIf="showSuggestions && suggestions.length" class="suggestions">
+        <div *ngFor="let s of suggestions | slice:0:6" (mousedown)="selectSuggestion(s)" class="suggestion-item">
+          <img *ngIf="s.poster" [src]="s.poster" class="suggestion-poster" />
+          <span>{{ s.name ?? s.jname }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar-actions">
+    <ng-container *ngIf="currentUser; else loginBtn">
+      <a *ngIf="currentUser['admin']" routerLink="/admin/dashboard" class="btn-admin">Admin</a>
+
+      <div class="profile-menu" (blur)="cerrarMenu()" tabindex="0">
+        <button class="profile-btn" (click)="toggleMenu()">
+          <img *ngIf="perfilActivo" [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)" class="profile-avatar"
+            alt="perfil" />
+          <div *ngIf="!perfilActivo" class="profile-avatar-fallback">
+            {{ currentUser['email']?.[0]?.toUpperCase() }}
+          </div>
+          <span class="profile-name">{{ perfilActivo?.nombre_usuario ?? 'Perfil' }}</span>
+          <span class="caret" [class.open]="menuAbierto">▾</span>
+        </button>
+
+        <div *ngIf="menuAbierto" class="profile-dropdown">
+          <div *ngIf="perfilActivo" class="dropdown-header">
+            <img [src]="perfilSvc.getAvatarUrl(perfilActivo.avatar_url)" class="dd-avatar" alt="" />
+            <div>
+              <div class="dd-name">{{ perfilActivo.nombre_usuario }}</div>
+              <div class="dd-email">{{ currentUser['email'] }}</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" (click)="cambiarPerfil()">
+            <span>⇄</span> Cambiar perfil
+          </button>
+          <button class="dropdown-item danger" (click)="logout()">
+            <span>⇠</span> Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loginBtn>
+      <a routerLink="/login" class="btn-login">Entrar</a>
+    </ng-template>
+  </div>
+</nav>
+
+<main class="public-main">
+  <router-outlet />
+</main>
+
+<footer class="public-footer">
+  <span>© 2026 Tilinflex — Solo uso educativo</span>
+</footer>

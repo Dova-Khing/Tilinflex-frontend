@@ -1,0 +1,58 @@
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">▶</span>
+      <span class="logo-text">Tilinflex</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⊞</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/admin/catalogo" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🎬</span>
+        <span>Catálogo</span>
+      </a>
+      <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span>Usuarios</span>
+      </a>
+      <!-- <a routerLink="/admin/categorias" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏷️</span>
+        <span>Categorías</span>
+      </a>
+      <a routerLink="/admin/generos" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🎭</span>
+        <span>Géneros</span>
+      </a> -->
+      <a routerLink="/admin/suscripciones" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💳</span>
+        <span>Suscripciones</span>
+      </a>
+      <a routerLink="/admin/perfil" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span>Perfil</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span>Ir al sitio</span>
+      </a>
+      <a routerLink="/login" class="nav-item logout">
+        <span class="nav-icon">⇠</span>
+        <span>Cerrar sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <router-outlet />
+  </main>
+
+</div>

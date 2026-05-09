@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+:host { display: block; background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
+
+// ── LOADING / ERROR ──────────────────────────────────
+.loading-screen, .error-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 60vh; gap: 1rem; color: rgba(255,255,255,.5);
+}
+.spinner {
+  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,.1);
+  border-top-color: #e50914; border-radius: 50%; animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── HERO ──────────────────────────────────────────────
+.hero {
+  position: relative; height: 90vh; min-height: 550px;
+  background-size: cover; background-position: center top;
+  display: flex; align-items: flex-end;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,.92) 0%, rgba(0,0,0,.5) 50%, transparent 100%),
+              linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 50%);
+}
+.hero-content {
+  position: relative; z-index: 2; padding: 4rem 4rem 5rem;
+  max-width: 600px;
+}
+.hero-rank { font-size: .75rem; font-weight: 700; color: #e50914; letter-spacing: 2px; text-transform: uppercase; margin-bottom: .5rem; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; margin: 0 0 1rem; }
+.hero-desc { font-size: .95rem; color: rgba(255,255,255,.75); line-height: 1.6; margin-bottom: 1.25rem; }
+.hero-meta { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.badge {
+  padding: .25rem .7rem; border-radius: 4px; font-size: .75rem; font-weight: 600;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(4px);
+  &.ep { background: rgba(229,9,20,.2); color: #ff6b6b; }
+}
+.hero-actions { display: flex; gap: 1rem; }
+.btn-play {
+  padding: .75rem 2rem; background: #e50914; color: #fff; border-radius: 4px;
+  text-decoration: none; font-weight: 700; font-size: .95rem; transition: background .2s, transform .1s;
+  &:hover { background: #b20710; transform: scale(1.02); }
+}
+.btn-info {
+  padding: .75rem 1.5rem; background: rgba(255,255,255,.15); color: #fff;
+  border-radius: 4px; text-decoration: none; font-weight: 600; font-size: .95rem;
+  backdrop-filter: blur(4px); transition: background .2s;
+  &:hover { background: rgba(255,255,255,.25); }
+}
+.hero-dots {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; gap: .5rem; z-index: 3;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%; border: none; background: rgba(255,255,255,.3);
+  cursor: pointer; padding: 0; transition: background .2s, transform .2s;
+  &.active { background: #e50914; transform: scale(1.3); }
+}
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  background: rgba(0,0,0,.4); border: none; color: #fff; font-size: 2.5rem;
+  width: 48px; height: 64px; cursor: pointer; border-radius: 4px;
+  transition: background .2s; line-height: 1; display: flex; align-items: center; justify-content: center;
+  &:hover { background: rgba(229,9,20,.5); }
+  &.prev { left: 1.5rem; }
+  &.next { right: 1.5rem; }
+}
+
+// ── SECTIONS ──────────────────────────────────────────
+.content-section { padding: 3rem 3rem 1rem; }
+.section-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; margin: 0; }
+  .see-all { color: #e50914; text-decoration: none; font-size: .85rem; font-weight: 600; transition: opacity .2s; &:hover { opacity: .7; } }
+}
+
+// ── HORIZONTAL SCROLL CARDS ───────────────────────────
+.cards-scroll {
+  display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;
+  scrollbar-width: thin; scrollbar-color: rgba(229,9,20,.4) transparent;
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-thumb { background: rgba(229,9,20,.4); border-radius: 2px; }
+}
+.anime-card {
+  flex-shrink: 0; width: 150px; text-decoration: none; color: #fff;
+  position: relative; border-radius: 6px; overflow: hidden;
+  transition: transform .2s;
+  &:hover { transform: scale(1.05); }
+  img { width: 100%; height: 210px; object-fit: cover; display: block; }
+  .card-rank {
+    position: absolute; top: .5rem; left: .5rem;
+    background: #e50914; color: #fff; font-size: .7rem; font-weight: 800;
+    padding: .1rem .4rem; border-radius: 3px;
+  }
+  .card-info { padding: .5rem .4rem; background: rgba(0,0,0,.6); }
+  .card-title { display: block; font-size: .78rem; font-weight: 600; line-height: 1.3; margin-bottom: .25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-eps { display: block; font-size: .68rem; color: rgba(255,255,255,.5); }
+  &.upcoming img { filter: brightness(.7); }
+}
+
+// ── GRID CARDS ────────────────────────────────────────
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+.anime-card-grid {
+  text-decoration: none; color: #fff; border-radius: 6px; overflow: hidden;
+  background: #111; transition: transform .2s;
+  &:hover { transform: translateY(-4px); }
+  img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .card-info { padding: .6rem .5rem; }
+  .card-title { display: block; font-size: .78rem; font-weight: 600; margin-bottom: .3rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-eps { display: block; font-size: .68rem; color: rgba(255,255,255,.45); margin-bottom: .25rem; }
+  .badge-sm { font-size: .65rem; padding: .1rem .4rem; background: rgba(255,255,255,.1); border-radius: 3px; color: rgba(255,255,255,.6); }
+}
+
+.upcoming-badge { background: rgba(229,9,20,.2) !important; color: #ff8080 !important; }
+
+// ── GENRES ────────────────────────────────────────────
+.genres-section { padding-bottom: 3rem; }
+.genres-grid { display: flex; flex-wrap: wrap; gap: .6rem; }
+.genre-pill {
+  padding: .45rem 1.1rem; border-radius: 20px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.8); text-decoration: none; font-size: .82rem;
+  transition: background .2s, color .2s, border-color .2s;
+  &:hover { background: rgba(229,9,20,.2); border-color: rgba(229,9,20,.4); color: #fff; }
+}
