@@ -2,18 +2,14 @@
 
   <!-- HEADER -->
   <div class="page-header">
-    <div>
-      <h2 class="page-title">{{ config.titulo }}</h2>
-      <p class="page-subtitle">{{ config.subtitulo }}</p>
-    </div>
-    <button (click)="abrirCrear()" class="btn-primary">+ Crear {{ config.entidad }}</button>
+    <h2 class="page-title">{{ titulo }}</h2>
   </div>
 
   <!-- ERROR -->
   <div *ngIf="error" class="alert-error">{{ error }}</div>
 
   <!-- LOADING -->
-  <div *ngIf="cargando" class="loading">Cargando {{ config.titulo | lowercase }}...</div>
+  <div *ngIf="cargando" class="loading">Cargando {{ titulo | lowercase }}...</div>
 
   <!-- TABLA -->
   <div *ngIf="!cargando" class="card">
@@ -24,52 +20,20 @@
             <th>#</th>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th class="center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of items; let i = index">
             <td class="muted">{{ i + 1 }}</td>
             <td class="bold">{{ item.nombre }}</td>
-            <td class="muted truncate-cell">{{ item.descripcion ?? '—' }}</td>
-            <td class="center">
-              <div class="actions">
-                <button (click)="abrirEditar(item)" class="btn-edit">Editar</button>
-                <button (click)="eliminar(item[config.idCampo])" class="btn-delete">Eliminar</button>
-              </div>
-            </td>
+            <td class="muted">{{ item.descripcion ?? '—' }}</td>
           </tr>
           <tr *ngIf="items.length === 0">
-            <td colspan="4" class="empty">No hay {{ config.titulo | lowercase }} registradas aún</td>
+            <td colspan="3" class="empty">No hay {{ titulo | lowercase }} registradas aún</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-</div>
-
-<!-- MODAL -->
-<div *ngIf="mostrarModal" class="modal-overlay">
-  <div class="modal">
-    <h3 class="modal-title">{{ editando ? 'Editar' : 'Crear' }} {{ config.entidad }}</h3>
-
-    <div class="form-grid">
-      <div class="form-group full">
-        <label>Nombre</label>
-        <input [(ngModel)]="form.nombre" placeholder="Nombre" />
-      </div>
-      <div class="form-group full">
-        <label>Descripción</label>
-        <textarea [(ngModel)]="form.descripcion" placeholder="Descripción (opcional)" rows="3"></textarea>
-      </div>
-    </div>
-
-    <div class="modal-actions">
-      <button (click)="cerrar()" class="btn-cancel">Cancelar</button>
-      <button (click)="guardar()" class="btn-primary">
-        {{ editando ? 'Guardar cambios' : 'Crear ' + config.entidad }}
-      </button>
-    </div>
-  </div>
 </div>
