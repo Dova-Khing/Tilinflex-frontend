@@ -12,6 +12,7 @@
         <tr>
           <th>#</th>
           <th>Nombre de usuario</th>
+          <th>Cuenta</th>
           <th>Idioma</th>
           <th>Infantil</th>
           <th>Creado</th>
@@ -21,12 +22,13 @@
         <tr *ngFor="let p of perfiles; let i = index">
           <td class="text-muted">{{ i + 1 }}</td>
           <td class="text-bold">{{ p.nombre_usuario }}</td>
+          <td class="text-muted">{{ p.email_usuario }}</td>
           <td>{{ p.idioma?.toUpperCase() }}</td>
           <td><span class="badge" [ngClass]="p.es_infantil ? 'si' : 'no'">{{ p.es_infantil ? 'Sí' : 'No' }}</span></td>
           <td class="text-muted">{{ p.fecha_creacion | date:'dd/MM/yyyy' }}</td>
         </tr>
         <tr *ngIf="perfiles.length === 0">
-          <td colspan="5" class="empty-state">No hay perfiles registrados</td>
+          <td colspan="6" class="empty-state">No hay perfiles registrados</td>
         </tr>
       </tbody>
     </table>
