@@ -75,12 +75,12 @@ export const routes: Routes = [
       {
         path: 'categorias',
         loadComponent: () =>
-          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
+          import('./features/categorias/categorias.component').then((m) => m.CategoriasComponent),
       },
       {
         path: 'generos',
         loadComponent: () =>
-          import('./features/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
+          import('./features/generos/generos.component').then((m) => m.GenerosComponent),
       },
       {
         path: 'perfil',
