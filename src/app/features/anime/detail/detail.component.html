@@ -55,12 +55,17 @@
           Seleccioná un episodio para reproducir
         </div>
         <iframe
-          *ngIf="streamUrl && !cargandoStream"
-          [src]="streamUrl"
-          allowfullscreen
-          allow="autoplay; fullscreen"
+          *ngIf="!cargandoStream && embedUrl"
+          [src]="embedUrl"
           class="video-player"
+          allowfullscreen
+          allow="autoplay; fullscreen; encrypted-media"
+          frameborder="0"
+          scrolling="no"
         ></iframe>
+        <div *ngIf="!cargandoStream && !embedUrl && streamSources" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ff6b6b;font-size:.85rem;">
+          embedUrl vacío — sin fuente de video
+        </div>
       </div>
 
       <!-- EP ACTUAL -->
@@ -88,6 +93,20 @@
     </aside>
 
   </div>
+
+  <!-- TEMPORADAS / RELACIONES -->
+  <section class="relations-section" *ngIf="relations.length">
+    <h3 class="section-title">Temporadas y relacionados</h3>
+    <div class="relations-row">
+      <a *ngFor="let r of relations" [routerLink]="['/anime', r.id]" class="relation-card">
+        <div class="relation-poster" [style.background-image]="'url(' + r.poster + ')'">
+          <span class="relation-badge">{{ r.relation | titlecase }}</span>
+        </div>
+        <p class="relation-name">{{ r.name }}</p>
+        <span class="relation-format">{{ r.format }}</span>
+      </a>
+    </div>
+  </section>
 
   <!-- INFO EXTRA -->
   <section class="extra-info" *ngIf="moreInfo">
