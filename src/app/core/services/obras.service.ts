@@ -8,6 +8,6 @@ export class ObrasService {
   constructor(private http: HttpClient) {}
 
   getAll() { return this.http.get<any[]>(this.api); }
-  importar(malId: number) { return this.http.post<any>(`${this.api}/importar/${malId}`, {}); }
+  importar(anilistId: number) { return this.http.post<any>(`${this.api}/importar/${anilistId}`, {}); }
   delete(id: string) { return this.http.delete<any>(`${this.api}/${id}`); }
 }

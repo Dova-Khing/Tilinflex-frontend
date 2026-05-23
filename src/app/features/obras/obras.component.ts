@@ -16,7 +16,7 @@ export class ObrasComponent implements OnInit {
   importando = false;
   error = '';
   errorImport = '';
-  malIdInput: number | null = null;
+  anilistIdInput: number | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -37,11 +37,11 @@ export class ObrasComponent implements OnInit {
   }
 
   importar() {
-    if (!this.malIdInput) return;
+    if (!this.anilistIdInput) return;
     this.importando = true;
     this.errorImport = '';
-    this.service.importar(this.malIdInput).subscribe({
-      next: () => { this.malIdInput = null; this.importando = false; this.cargar(); },
+    this.service.importar(this.anilistIdInput).subscribe({
+      next: () => { this.anilistIdInput = null; this.importando = false; this.cargar(); },
       error: (e: any) => {
         this.errorImport = e?.error?.detail ?? 'Error al importar el anime';
         this.importando = false;
