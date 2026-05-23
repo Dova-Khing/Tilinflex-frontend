@@ -5,23 +5,23 @@
 
   <!-- IMPORTAR -->
   <div class="card" style="margin-bottom:20px">
-    <h2 class="card-title" style="margin-bottom:12px">Importar desde MyAnimeList</h2>
+    <h2 class="card-title" style="margin-bottom:12px">Importar desde AniList</h2>
     <div style="display:flex;gap:10px;align-items:flex-start">
       <input
         type="number"
-        [(ngModel)]="malIdInput"
+        [(ngModel)]="anilistIdInput"
         class="form-input"
-        placeholder="MAL ID  (ej: 5114)"
+        placeholder="AniList ID  (ej: 1535)"
         style="max-width:220px"
         (keydown.enter)="importar()"
       />
-      <button class="btn btn-primary" (click)="importar()" [disabled]="importando || !malIdInput">
+      <button class="btn btn-primary" (click)="importar()" [disabled]="importando || !anilistIdInput">
         {{ importando ? 'Importando...' : 'Importar' }}
       </button>
     </div>
     <p *ngIf="errorImport" class="error-msg" style="margin-top:8px">{{ errorImport }}</p>
     <p style="margin-top:8px;font-size:12px;color:#94a3b8">
-      Busca el ID en <strong>myanimelist.net/anime/&lt;ID&gt;</strong> — se guarda o actualiza automáticamente.
+      Busca el ID en <strong>anilist.co/anime/&lt;ID&gt;</strong> — se guarda o actualiza automáticamente.
     </p>
   </div>
 
