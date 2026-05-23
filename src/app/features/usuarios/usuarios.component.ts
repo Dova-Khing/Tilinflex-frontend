@@ -32,7 +32,7 @@ export class UsuariosComponent implements OnInit {
     this.cargando = true;
     this.service.getAll().subscribe({
       next: (data: any) => { this.usuarios = data?.data ?? data; this.cargando = false; },
-      error: () => { this.error = 'Error al cargar usuarios'; this.cargando = false; }
+      error: () => { this.error = 'Error al cargar usuarios'; this.cargando = false; },
     });
   }
 
@@ -54,16 +54,25 @@ export class UsuariosComponent implements OnInit {
 
   guardar() {
     if (this.editando) {
-      this.service.update(this.form.id_usuario, this.form).subscribe({ next: () => { this.cerrar(); this.cargar(); } });
+      this.service.update(this.form.id_usuario, this.form).subscribe({
+        next: () => { this.cerrar(); this.cargar(); },
+        error: (e: any) => { this.error = e?.error?.detail ?? 'Error al actualizar usuario'; },
+      });
     } else {
-      this.service.create(this.form).subscribe({ next: () => { this.cerrar(); this.cargar(); } });
+      this.service.create(this.form).subscribe({
+        next: () => { this.cerrar(); this.cargar(); },
+        error: (e: any) => { this.error = e?.error?.detail ?? 'Error al crear usuario'; },
+      });
     }
   }
 
   eliminar(id: string) {
     if (!confirm('¿Eliminar este usuario?')) return;
-    this.service.delete(id).subscribe({ next: () => this.cargar() });
+    this.service.delete(id).subscribe({
+      next: () => this.cargar(),
+      error: (e: any) => { this.error = e?.error?.detail ?? 'Error al eliminar usuario'; },
+    });
   }
 
-  cerrar() { this.mostrarModal = false; }
+  cerrar() { this.mostrarModal = false; this.error = ''; }
 }

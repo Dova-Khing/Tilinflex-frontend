@@ -1,7 +1,8 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, DestroyRef, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PerfilService, Perfil } from '../../core/services/perfil.service';
 
 @Component({
@@ -23,6 +24,8 @@ export class PerfilesComponent implements OnInit {
 
   readonly MAX = 4;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     public perfilSvc: PerfilService,
@@ -36,14 +39,16 @@ export class PerfilesComponent implements OnInit {
 
   cargar() {
     this.cargando = true;
-    this.perfilSvc.getMisPerfiles().subscribe({
-      next: (data) => { this.perfiles = data; this.cargando = false; },
-      error: () => { this.cargando = false; },
-    });
+    this.perfilSvc.getMisPerfiles()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data) => { this.perfiles = data; this.cargando = false; },
+        error: () => { this.cargando = false; },
+      });
   }
 
   seleccionar(perfil: Perfil) {
-    if (this.modoEdicion) return;
+    if (this.modoEdicion || this.mostrarModal) return;
     this.perfilSvc.seleccionar(perfil);
     this.router.navigate(['/']);
   }
@@ -75,22 +80,31 @@ export class PerfilesComponent implements OnInit {
   guardar() {
     if (!this.form.nombre_usuario.trim()) { this.error = 'El nombre es obligatorio'; return; }
     if (this.editando) {
-      this.perfilSvc.update(this.editando.id_perfil, this.form).subscribe({
-        next: () => { this.cerrar(); this.cargar(); },
-        error: (e) => { this.error = e?.error?.detail ?? 'Error al guardar'; },
-      });
+      this.perfilSvc.update(this.editando.id_perfil, this.form)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => { this.cerrar(); this.cargar(); },
+          error: (e) => { this.error = e?.error?.detail ?? 'Error al guardar'; },
+        });
     } else {
-      this.perfilSvc.create(this.form).subscribe({
-        next: () => { this.cerrar(); this.cargar(); },
-        error: (e) => { this.error = e?.error?.detail ?? 'Error al crear perfil'; },
-      });
+      this.perfilSvc.create(this.form)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => { this.cerrar(); this.cargar(); },
+          error: (e) => { this.error = e?.error?.detail ?? 'Error al crear perfil'; },
+        });
     }
   }
 
   eliminar(perfil: Perfil, event: Event) {
     event.stopPropagation();
     if (!confirm(`¿Eliminar el perfil "${perfil.nombre_usuario}"?`)) return;
-    this.perfilSvc.delete(perfil.id_perfil).subscribe({ next: () => this.cargar() });
+    this.perfilSvc.delete(perfil.id_perfil)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.cargar(),
+        error: (e) => { this.error = e?.error?.detail ?? 'Error al eliminar'; },
+      });
   }
 
   cerrar() { this.mostrarModal = false; this.editando = null; }

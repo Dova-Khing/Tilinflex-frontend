@@ -21,7 +21,7 @@ const normalizeList = (r: any): any => {
     topUpcomingAnimes:  normalizeSection(d?.topUpcomingAnimes  ?? []),
     animes:             normalizeSection(d?.animes ?? d?.results ?? []),
     genres:             d?.genres ?? [],
-    totalPages:         d?.totalPages ?? d?.hasNextPage ? 999 : 1,
+    totalPages:         d?.totalPages ?? (d?.hasNextPage ? 999 : 1),
   };
 };
 
@@ -74,7 +74,7 @@ export class AnimeService {
   }
 
   servers(episodeId: string): Observable<any> {
-    return this.http.get(`${this.api}/servers/${episodeId}`);
+    return this.http.get(`${this.api}/servers`, { params: { episodeId } });
   }
 
   play(id: string, server = 'hd-1', type = 'sub'): Observable<any> {
@@ -85,6 +85,8 @@ export class AnimeService {
           data: {
             sources:   d?.sources   ?? [],
             subtitles: d?.subtitles ?? [],
+            embedUrl:  d?.embedUrl  ?? '',
+            skip:      d?.skip,
           },
         };
       })

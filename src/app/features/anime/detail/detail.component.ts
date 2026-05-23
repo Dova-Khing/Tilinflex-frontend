@@ -1,8 +1,8 @@
-﻿import { Component, OnInit, PLATFORM_ID, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Subject, takeUntil, switchMap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AnimeService } from '../../../core/services/anime.service';
 
 @Component({
@@ -17,11 +17,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   episodes: any[] = [];
   servers: any[]  = [];
 
-  selectedEp: any     = null;
-  selectedServer      = 'hd-1';
-  selectedType        = 'sub';
-  streamSources: any  = null;
-  streamUrl: SafeResourceUrl | null = null;
+  selectedEp: any    = null;
+  selectedServer     = 'hd-1';
+  selectedType       = 'sub';
+  streamSources: any = null;
+  embedUrl: SafeResourceUrl | null = null;
 
   cargandoInfo   = true;
   cargandoStream = false;
@@ -29,12 +29,13 @@ export class DetailComponent implements OnInit, OnDestroy {
   errorStream    = '';
 
   private destroy$ = new Subject<void>();
+  private hls: any  = null;
 
   constructor(
     private anime: AnimeService,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {}
 
   ngOnInit() {
@@ -45,11 +46,16 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
+  ngOnDestroy() {
+    this.destroyHls();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   private resetState() {
+    this.destroyHls();
     this.info = null; this.episodes = []; this.servers = [];
-    this.selectedEp = null; this.streamSources = null; this.streamUrl = null;
+    this.selectedEp = null; this.streamSources = null; this.embedUrl = null;
     this.cargandoInfo = true; this.errorInfo = ''; this.errorStream = '';
   }
 
@@ -60,7 +66,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.cargandoInfo = false;
         this.cargarEpisodios(animeId);
       },
-      error: () => { this.errorInfo = 'No se pudo cargar la informaciÃ³n.'; this.cargandoInfo = false; },
+      error: () => { this.errorInfo = 'No se pudo cargar la información.'; this.cargandoInfo = false; },
     });
   }
 
@@ -76,7 +82,6 @@ export class DetailComponent implements OnInit, OnDestroy {
   seleccionarEp(ep: any) {
     this.selectedEp    = ep;
     this.streamSources = null;
-    this.streamUrl     = null;
     this.errorStream   = '';
     this.cargarServers(ep.episodeId ?? ep.id);
   }
@@ -86,7 +91,10 @@ export class DetailComponent implements OnInit, OnDestroy {
       next: (r: any) => {
         const d = r?.data ?? r;
         this.servers = d?.sub ?? d?.servers ?? [];
-        if (this.servers.length) this.cargarStream(epId);
+        if (this.servers.length) {
+          this.selectedServer = this.servers[0].serverName ?? this.servers[0];
+        }
+        this.cargarStream(epId);
       },
     });
   }
@@ -96,15 +104,25 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (!id) return;
     this.cargandoStream = true;
     this.errorStream    = '';
+    this.embedUrl       = null;
+    this.destroyHls();
     this.anime.play(id, this.selectedServer, this.selectedType).subscribe({
       next: (r: any) => {
         this.streamSources = r?.data ?? r;
-        const src = this.streamSources?.sources?.[0]?.url;
-        this.streamUrl = src ? this.sanitizer.bypassSecurityTrustResourceUrl(src) : null;
         this.cargandoStream = false;
+        const rawEmbed = this.streamSources?.embedUrl;
+        if (rawEmbed) {
+          this.embedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawEmbed);
+        } else if (this.streamSources?.message) {
+          this.errorStream = this.streamSources.message;
+        }
       },
       error: () => { this.errorStream = 'No se pudo cargar el stream.'; this.cargandoStream = false; },
     });
+  }
+
+  private destroyHls() {
+    if (this.hls) { this.hls.destroy(); this.hls = null; }
   }
 
   cambiarTipo(tipo: string) {
@@ -119,4 +137,11 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   get infoInfo() { return this.info?.info ?? this.info; }
   get moreInfo() { return this.info?.moreInfo ?? null; }
+  get relations() {
+    const all: any[] = this.info?.relations ?? [];
+    const order = ['PREQUEL','PARENT','SEQUEL','SIDE_STORY','ALTERNATIVE','SPIN_OFF','OTHER'];
+    return all
+      .filter((r: any) => ['TV','MOVIE','OVA','ONA','SPECIAL'].includes(r.format))
+      .sort((a: any, b: any) => order.indexOf(a.relation) - order.indexOf(b.relation));
+  }
 }
